@@ -1,7 +1,6 @@
-// next.config.js
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === 'production'
-const repo = 'compro-airCon' // ganti dengan nama repo GitHub kamu
+const repo = 'NAMA_REPO' // ganti jika pakai project pages
 
 module.exports = {
   output: 'export',
@@ -9,4 +8,4 @@ module.exports = {
   assetPrefix: isProd ? `/${repo}/` : '',
   images: { unoptimized: true },
   trailingSlash: true,
-}
+};

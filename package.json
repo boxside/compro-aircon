@@ -7,7 +7,6 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "export": "next export",
     "static": "next build && next export"
   },
   "dependencies": {
