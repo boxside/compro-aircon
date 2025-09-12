@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "static": "next build && next export"
+    "static": "next build"
   },
   "dependencies": {
     "@radix-ui/react-navigation-menu": "^1.2.14",
