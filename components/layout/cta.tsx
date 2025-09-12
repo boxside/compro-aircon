@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useTheme } from "../ThemeProvider"
+import Link from "next/link"
 import Image from "next/image"
 
 const CTA = () => {
@@ -25,7 +26,8 @@ const CTA = () => {
         }
     }, [theme])
     // background image (ganti sesuai kebutuhan)
-    const bgImage = "/IMG_8906.jpg"
+    // Pastikan sesuai dengan nama file di `public/` (case-sensitive di Linux/GitHub Pages)
+    const bgImage = "/IMG_8906.JPG"
 
     // gradient sesuai tema
     const lightGradient = "from-background via-background/70 to-transparent"
@@ -57,12 +59,13 @@ const CTA = () => {
                         menawarkan solusi terbaik yang sesuai dengan kebutuhan bisnis Anda.
                         Hubungi kami hari ini untuk konsultasi gratis.
                     </p>
-                    <a
-                        href="/contact-us"
+                    {/* Gunakan Next Link agar menghormati basePath saat di GitHub Pages */}
+                    <Link
+                        href="/contact"
                         className="inline-block bg-card-foreground text-card font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
                     >
                         Hubungi Kami
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>
