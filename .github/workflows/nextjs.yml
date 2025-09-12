@@ -2,7 +2,7 @@ name: Deploy Next.js to GitHub Pages
 
 on:
   push:
-    branches: [ main ]   # deploy tiap push ke main
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
@@ -10,22 +10,26 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
       - run: npm ci
-      - run: npm run static
-
-      - name: Add .nojekyll
-        run: touch out/.nojekyll
-
+      - name: Build & Export
+        run: npm run static
+        env:
+          NEXT_PUBLIC_PAGES_BASE_PATH: "/compro-aircon"  # <-- ganti sesuai repo
+      - run: touch out/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

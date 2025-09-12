@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === 'production'
-const repo = 'NAMA_REPO' // ganti jika pakai project pages
+const repo = 'compro-aircon' 
 
 module.exports = {
   output: 'export',
