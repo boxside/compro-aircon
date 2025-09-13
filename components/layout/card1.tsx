@@ -128,12 +128,12 @@ function MetricCard({
     </Card>
   )
 }
-// Data metrics khusus HVAC
+// Data metrics khusus logistik
 const metricsData = [
   {
     icon: <Users className="w-6 h-6 text-blue-500" />,
-    value: 500,
-    label: "Sistem HVAC Terpasang",
+    value: 25000,
+    label: "Pengiriman Terselesaikan",
     change: "+18.5%",
     changeColor: "text-blue-400",
     suffix: "+",
@@ -142,19 +142,19 @@ const metricsData = [
   },
   {
     icon: <TrendingUp className="w-6 h-6 text-green-500" />,
-    value: 35,
-    label: "Efisiensi Energi",
-    change: "+12.2%",
+    value: 98.5,
+    label: "Ketepatan Waktu",
+    change: "+3.2%",
     changeColor: "text-green-400",
     suffix: "%",
     prefix: "",
-    decimals: 0,
+    decimals: 1,
   },
   {
     icon: <Zap className="w-6 h-6 text-chart-2" />,
-    value: 99.7,
+    value: 97.8,
     label: "Kepuasan Pelanggan",
-    change: "+9.1%",
+    change: "+4.1%",
     changeColor: "text-chart-2",
     suffix: "%",
     prefix: "",
@@ -162,35 +162,35 @@ const metricsData = [
   },
   {
     icon: <Clock className="w-6 h-6 text-orange-500" />,
-    value: 24,
-    label: "Respon Cepat",
+    value: 15,
+    label: "Rata-rata Waktu Respon",
     change: "",
     changeColor: "text-orange-400",
-    suffix: " jam",
+    suffix: " menit",
     prefix: "",
     decimals: 0,
   },
 ]
 
-// Grid metric + hero section untuk HVAC
+// Grid metric + hero section untuk logistik
 export function MetricsSection() {
   return (
     <section className="bg-background text-foreground py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-12">
+        <Card className="bg-card text-card-foreground border-0 rounded-2xl shadow-md">
+          <CardContent className="p-8 md:p-10">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-12">
           {/* Hero kiri */}
           <div className="md:w-1/2">
-            <span className="px-3 py-1 rounded-full bg-muted text-sm font-medium">
-              ❄️ Solusi HVAC Andal
-            </span>
+
             <h1 className="text-4xl md:text-5xl font-bold mt-6 mb-4 leading-tight">
-              Tingkatkan kenyamanan ruang anda
-              dengan layanan profesional kami
+              Optimalkan rantai pasok Anda
+              dengan layanan logistik end-to-end
             </h1>
             <p className="text-muted-foreground mb-6 max-w-lg">
-              Kami membantu perusahaan, gedung, dan hunian menghadirkan udara yang
-              lebih sejuk, bersih, dan hemat energi dengan solusi HVAC modern,
-              perawatan rutin, serta respon cepat 24/7.
+              Kami membantu bisnis mengirimkan barang lebih cepat, aman, dan efisien
+              melalui jaringan distribusi yang luas, manajemen gudang yang rapi,
+              perencanaan rute cerdas, serta pelacakan real-time 24/7.
             </p>
 
             <div className="flex gap-6 text-sm text-muted-foreground">
@@ -215,7 +215,9 @@ export function MetricsSection() {
               />
             ))}
           </div>
-        </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   )

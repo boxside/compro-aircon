@@ -15,7 +15,7 @@ interface PelangganKamiProps {
 }
 
 export default function PelangganKami({
-  title = "Pelanggan Kami",
+  title = "Mereka yang Sudah Percaya dengan Kami",
   logos,
   autoplayMs,
 }: PelangganKamiProps) {

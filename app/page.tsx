@@ -31,8 +31,8 @@ export default function Home() {
         slides={[
           {
             src: "/vite.svg",
-            caption: "Your Smart HVAC Partner",
-            subcaption: "Trained and Certified Technicians",
+            caption: "Your Smart Logistic Partner",
+            subcaption: "Trained and Certified Driver",
           },
           {
             src: "/vite.svg",
@@ -69,7 +69,7 @@ export default function Home() {
           },
         ]}
       />
-      <PelangganKami title="Pelanggan Kami" logos={logos} />
+      <PelangganKami   title = "Mereka yang Sudah Percaya dengan Kami"  logos={logos} />
 
       <CTA />
 

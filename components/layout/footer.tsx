@@ -13,8 +13,8 @@ const Footer = () => {
                     <Image src={logo} alt="Logo" width={80} height={80} />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-foreground">AirComfort Pro</h3>
-                <p className="text-sm text-muted-foreground">Professional HVAC Services</p>
+                <h3 className="text-lg font-bold text-foreground">Logistic company</h3>
+                <p className="text-sm text-muted-foreground">Professional Logistic Services</p>
               </div>
             </div>
             <p className="text-muted-foreground mb-4 max-w-md">
@@ -40,12 +40,10 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Services</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>Air Conditioning</li>
-              <li>Heating Systems</li>
-              <li>Ventilation</li>
-              <li>Maintenance Plans</li>
-              <li>Emergency Repair</li>
-              <li>Commercial HVAC</li>
+              <li>Tronton Wingbox</li>
+              <li>Fuso</li>
+              <li>Double Long</li>
+              <li>Double Standard</li>
             </ul>
           </div>
           
@@ -53,11 +51,10 @@ const Footer = () => {
             <h4 className="font-semibold text-foreground mb-4">Company</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>About Us</li>
-              <li>Licensing & Insurance</li>
-              <li>Service Areas</li>
-              <li>Customer Reviews</li>
+              <li>Service</li>
+              <li>Project</li>
               <li>Contact</li>
-              <li>Emergency Service</li>
+              <li>Tract your Delivery</li>
             </ul>
           </div>
         </div>

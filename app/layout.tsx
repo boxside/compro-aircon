@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeProvider defaultTheme="system" storageKey="ui-theme">
           <NavigationMenuDemo />
-          {children}
+          <main className="pt-16 md:pt-[72px]">{children}</main>
         </ThemeProvider>
         <Footer/>
       </body>

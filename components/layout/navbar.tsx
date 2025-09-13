@@ -73,11 +73,10 @@ export function NavigationMenuDemo() {
 
   return (
     <div
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
           ? "bg-background/20 backdrop-blur-sm shadow-md border-b border-border/50"
           : "bg-background"
-      }`}
+        }`}
     >
       <div className="w-full px-6 py-4 flex justify-between items-center">
         <div className="flex items-center">
@@ -114,7 +113,9 @@ export function NavigationMenuDemo() {
               </NavigationMenuItem>
 
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="px-4 py-2 rounded-md font-semibold text-foreground bg-transparent hover:bg-accent transition-colors data-[state=open]:!bg-transparent focus:outline-none">
+                <NavigationMenuTrigger
+                  className="px-4 py-2 rounded-md font-semibold text-foreground text-base leading-6 hover:bg-accent transition-colors bg-transparent data-[state=open]:!bg-transparent focus:outline-none"
+                >
                   Services
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="left-auto right-0">

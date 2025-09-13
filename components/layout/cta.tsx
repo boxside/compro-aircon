@@ -62,7 +62,7 @@ const CTA = () => {
                     {/* Gunakan Next Link agar menghormati basePath saat di GitHub Pages */}
                     <Link
                         href="/contact"
-                        className="inline-block bg-card-foreground text-card font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
+                        className="inline-block bg-foreground text-background font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
                     >
                         Hubungi Kami
                     </Link>
