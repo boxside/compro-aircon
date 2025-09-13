@@ -153,7 +153,7 @@ export default function OurJourney({
               Milestones That Define Our Journey
             </h3>
             <p className="mt-3 text-sm md:text-base text-muted-foreground max-w-3xl mx-auto">
-              Over the years, we've achieved remarkable success by focusing on delivering exceptional value to our clients and building lasting relationships.
+              Over the years, we&rsquo;ve achieved remarkable success by focusing on delivering exceptional value to our clients and building lasting relationships.
             </p>
           </motion.div>
 

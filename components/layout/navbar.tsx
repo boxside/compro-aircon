@@ -68,7 +68,7 @@ export function NavigationMenuDemo() {
 
   // Tutup saat pindah route
   useEffect(() => {
-    if (isOpen) setIsOpen(false)
+    setIsOpen(false)
   }, [pathname]) // cukup depend ke pathname
 
   return (

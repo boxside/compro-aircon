@@ -1,7 +1,5 @@
 "use client"
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 
 type AboutCompanyProps = {
@@ -13,8 +11,6 @@ type AboutCompanyProps = {
   visionText?: string
   valuesTitle?: string
   valuesText?: string
-  ctaHref?: string
-  ctaText?: string
 }
 
 export default function AboutCompany({
@@ -30,8 +26,6 @@ export default function AboutCompany({
   valuesTitle = "Nilai-Nilai Kami",
   valuesText =
     "Integritas, ketepatan waktu, keamanan, layanan pelanggan, dan inovasi menjadi fondasi kami dalam melayani setiap pengiriman.",
-  ctaHref = "/contact",
-  ctaText = "Pelajari lebih lanjut",
 }: AboutCompanyProps) {
   const fadeInUp = {
     hidden: { opacity: 0, y: 24 },
