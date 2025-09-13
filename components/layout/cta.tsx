@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useTheme } from "../ThemeProvider"
 import Link from "next/link"
 import Image from "next/image"
-
+import bg from "@/public/IMG_8933.webp"
 const CTA = () => {
     const { theme } = useTheme()
     const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
@@ -25,9 +25,6 @@ const CTA = () => {
             setResolvedTheme(theme as "light" | "dark")
         }
     }, [theme])
-    // background image (ganti sesuai kebutuhan)
-    // Pastikan sesuai dengan nama file di `public/` (case-sensitive di Linux/GitHub Pages)
-    const bgImage = "./IMG_8933.webp"
 
     // gradient sesuai tema
     const lightGradient = "from-background via-background/70 to-transparent"
@@ -38,7 +35,7 @@ const CTA = () => {
         <div className="relative overflow-hidden ">
             {/* Background image */}
             <Image
-                src={bgImage}
+                src={bg}
                 alt="Background"
                 fill
                 priority
