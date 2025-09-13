@@ -2,9 +2,24 @@
 import { useEffect, useState } from "react"
 import { useTheme } from "../ThemeProvider"
 import Link from "next/link"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import bg from "@/public/IMG_8933.webp"
-const CTA = () => {
+
+type CTAProps = {
+    title?: string
+    caption?: string
+    buttonText?: string
+    buttonHref?: string
+    imageSrc?: StaticImageData | string
+}
+
+const CTA = ({
+    title = "Butuh Solusi? Kami Siap Membantu.",
+    caption = "Tim kami siap memberikan dukungan, menjawab pertanyaan, dan menawarkan solusi terbaik yang sesuai dengan kebutuhan bisnis Anda. Hubungi kami hari ini untuk konsultasi gratis.",
+    buttonText = "Hubungi Kami",
+    buttonHref = "/contact",
+    imageSrc = bg,
+}: CTAProps) => {
     const { theme } = useTheme()
     const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
 
@@ -32,10 +47,10 @@ const CTA = () => {
     const gradientClass =
         resolvedTheme === "dark" ? darkGradient : lightGradient
     return (
-        <div className="relative overflow-hidden ">
+        <div className="relative overflow-hidden min-h-screen">
             {/* Background image */}
             <Image
-                src={bg}
+                src={imageSrc}
                 alt="Background"
                 fill
                 priority
@@ -46,23 +61,25 @@ const CTA = () => {
             <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass}`} />
 
             {/* Content */}
-            <div className="relative px-8 py-50 md:px-12 flex flex-col md:flex-row items-center justify-between">
-                <div className="text-center md:text-left max-w-xl">
+            <div className="relative px-8 md:px-12 min-h-screen flex flex-col md:flex-row items-center justify-start pt-24 md:pt-28">
+                <div className="text-left max-w-xl">
                     <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                        Butuh Solusi? Kami Siap Membantu.
+                        {title}
                     </h2>
-                    <p className="text-foreground mb-6">
-                        Tim kami siap memberikan dukungan, menjawab pertanyaan, dan
-                        menawarkan solusi terbaik yang sesuai dengan kebutuhan bisnis Anda.
-                        Hubungi kami hari ini untuk konsultasi gratis.
-                    </p>
+                    {caption && (
+                        <p className="text-foreground mb-6">
+                            {caption}
+                        </p>
+                    )}
                     {/* Gunakan Next Link agar menghormati basePath saat di GitHub Pages */}
-                    <Link
-                        href="/contact"
-                        className="inline-block bg-foreground text-background font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
-                    >
-                        Hubungi Kami
-                    </Link>
+                    {buttonHref && buttonText && (
+                        <Link
+                            href={buttonHref}
+                            className="inline-block bg-foreground text-background font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
+                        >
+                            {buttonText}
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

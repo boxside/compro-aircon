@@ -4,7 +4,7 @@ import PelangganKami, { ClientLogo } from "@/components/layout/CustomerCarousel"
 import { FeaturesSection } from "@/components/layout/mainfeature";
 import CTA from "@/components/layout/cta";
 import { OurStory } from "@/components/layout/story";
-
+import ctaimg from "@/public/IMG_8933.webp"
 const logos: ClientLogo[] = [
   { src: "./vite.svg", alt: "Astra" },
   { src: "./vite.svg", alt: "Astra" },
@@ -69,10 +69,15 @@ export default function Home() {
           },
         ]}
       />
-      <PelangganKami   title = "Mereka yang Sudah Percaya dengan Kami"  logos={logos} />
+      <PelangganKami title="Mereka yang Sudah Percaya dengan Kami" logos={logos} />
 
-      <CTA />
-
+      <CTA
+        title="Butuh Solusi? Kami Siap Membantu."
+        caption="Tim kami siap memberikan dukungan, menjawab pertanyaan, dan menawarkan solusi terbaik yang sesuai dengan kebutuhan bisnis Anda. Hubungi kami hari ini untuk konsultasi gratis."
+        buttonText="Hubungi Kami"
+        buttonHref="/contact"
+        imageSrc={ctaimg}
+      />
     </>
   );
 }

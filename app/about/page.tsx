@@ -1,6 +1,8 @@
 import AboutCompany from "@/components/layout/AboutCompany"
 import OurJourney, { type JourneyItem } from "@/components/layout/OurJourney"
 import CTA from "@/components/layout/cta"
+import ctaimg from "@/public/IMG_8933.webp"
+
 export default function AboutPage() {
   return (
     <>
@@ -51,7 +53,12 @@ export default function AboutPage() {
           },
         ] satisfies JourneyItem[]}
       />
-      <CTA  />
-    </>
+      <CTA 
+      title="Tunggu Apalagi?" 
+      caption="Optimalkan logistik Anda dengan keahlian kami." 
+      imageSrc={ctaimg} 
+      ctaHref="/contact" 
+      ctaText="Diskusikan Kebutuhan" />  
+        </>
   )
 }
