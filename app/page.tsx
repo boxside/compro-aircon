@@ -57,7 +57,7 @@ export default function Home() {
               "AC rusak di saat cuaca terik? Atau listrik melonjak karena mesin tak terawat? Tim kami hadir untuk memastikan sistem pendingin, pemanas, dan ventilasi Anda selalu bekerja optimal. Dari instalasi baru, servis rutin, hingga emergency repair—semua bisa Anda percayakan pada kami.",
             buttonText: "Learn more",
             buttonHref: "/workflow",
-            imageSrc: "./IMG_8906.JPG",
+            imageSrc: "./IMG_8933.webp",
           },
           {
             title: "Layanan Bisnis",

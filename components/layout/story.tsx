@@ -21,7 +21,7 @@ export function OurStory() {
                     <div className="md:w-1/2">
                         <div className="relative h-64 md:h-full w-full">
                             <Image
-                                src="./IMG_8906.jpg"
+                                src="./IMG_8933.webp"
                                 alt="Armada truk Albatros di perjalanan"
                                 fill
                                 style={{ objectFit: 'cover' }}

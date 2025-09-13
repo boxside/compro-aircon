@@ -27,7 +27,7 @@ const CTA = () => {
     }, [theme])
     // background image (ganti sesuai kebutuhan)
     // Pastikan sesuai dengan nama file di `public/` (case-sensitive di Linux/GitHub Pages)
-    const bgImage = "./IMG_8906.JPG"
+    const bgImage = "./IMG_8933.webp"
 
     // gradient sesuai tema
     const lightGradient = "from-background via-background/70 to-transparent"
