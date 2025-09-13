@@ -6,21 +6,21 @@ import CTA from "@/components/layout/cta";
 import { OurStory } from "@/components/layout/story";
 
 const logos: ClientLogo[] = [
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
-  { src: "/vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
+  { src: "./vite.svg", alt: "Astra" },
 
 ]
 
@@ -30,16 +30,16 @@ export default function Home() {
       <HeroCarousel
         slides={[
           {
-            src: "/vite.svg",
+            src: "./vite.svg",
             caption: "Your Smart Logistic Partner",
             subcaption: "Trained and Certified Driver",
           },
           {
-            src: "/vite.svg",
+            src: "./vite.svg",
             caption: "Guaranteed Customer Satisfaction Every Time",
           },
           {
-            src: "/vite.svg",
+            src: "./vite.svg",
             caption: "Trusted. Reliable. Innovative.",
           },
         ]}
@@ -57,7 +57,7 @@ export default function Home() {
               "AC rusak di saat cuaca terik? Atau listrik melonjak karena mesin tak terawat? Tim kami hadir untuk memastikan sistem pendingin, pemanas, dan ventilasi Anda selalu bekerja optimal. Dari instalasi baru, servis rutin, hingga emergency repair—semua bisa Anda percayakan pada kami.",
             buttonText: "Learn more",
             buttonHref: "/workflow",
-            imageSrc: "/IMG_8906.JPG",
+            imageSrc: "./IMG_8906.JPG",
           },
           {
             title: "Layanan Bisnis",
@@ -65,7 +65,7 @@ export default function Home() {
               "Lingkungan kerja yang nyaman meningkatkan produktivitas maupun kepuasan pelanggan. Layanan kami mencakup Instalasi skala besar maupun pemeliharaan preventif untuk kantor, restoran, toko, dan pabrik.",
             buttonText: "Learn more",
             buttonHref: "/collaboration",
-            imageSrc: "/vite.svg",
+            imageSrc: "./vite.svg",
           },
         ]}
       />
