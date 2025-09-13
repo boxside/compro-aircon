@@ -57,8 +57,8 @@ export default function AboutPage() {
       title="Tunggu Apalagi?" 
       caption="Optimalkan logistik Anda dengan keahlian kami." 
       imageSrc={ctaimg} 
-      ctaHref="/contact" 
-      ctaText="Diskusikan Kebutuhan" />  
+      buttonHref="/contact" 
+      buttonText="Diskusikan Kebutuhan" />  
         </>
   )
 }
