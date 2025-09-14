@@ -73,7 +73,7 @@
               "Pallet-friendly floors",
               "GPS tracking"
             ],
-            "image": { "src": "/IMG_8906.JPG", "alt": "Wingbox standard" }
+            "image": { "src": "/IMG_8933.webp", "alt": "Wingbox standard" }
           },
           {
             "key": "heavy",
@@ -85,7 +85,7 @@
               "High payload rating",
               "Driver safety systems"
             ],
-            "image": { "src": "/IMG_8906.JPG", "alt": "Wingbox heavy duty" }
+            "image": { "src": "/IMG_8933.webp", "alt": "Wingbox heavy duty" }
           }
         ]
       }

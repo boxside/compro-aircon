@@ -16,6 +16,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "../ui/navigation-menu"
+import { withBase } from "@/lib/utils"
 
 export function NavigationMenuDemo() {
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +33,8 @@ export function NavigationMenuDemo() {
     let cancelled = false
     async function load() {
       try {
-        const res = await fetch("/data/services.json", { cache: "no-store" })
+        const url = withBase("/data/services.json")
+        const res = await fetch(url, { cache: "no-store" })
         if (!res.ok) return
         const json = (await res.json()) as NavServicesGlobal
         if (!cancelled) setServicesData(json)
