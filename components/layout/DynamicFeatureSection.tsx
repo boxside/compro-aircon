@@ -114,7 +114,7 @@ export function DynamicFeatureSection({ dataUrl, category }: { dataUrl?: string;
     return () => {
       cancelled = true
     }
-  }, [url, category, params])
+  }, [configured, category, params])
 
   const activeCategory = useMemo(() => {
     if (!payload || !active) return null
