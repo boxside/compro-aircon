@@ -37,13 +37,9 @@ type ServicesGlobal = {
   }>
 }
 
-/** Helper untuk prefix basePath (GitHub Pages / production) */
 function withBase(path: string) {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH || ""
-  if (!path.startsWith("/")) {
-    path = "/" + path
-  }
-  return `${base}${path}`
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  return `${base}${path.startsWith('/') ? path : '/' + path}`
 }
 
 export function DynamicFeatureSection({
