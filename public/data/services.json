@@ -1,0 +1,95 @@
+{
+  "categoryServices": [
+    {
+      "category": "refrigerated",
+      "data": {
+        "header": "Refrigerated Logistics Solutions",
+        "subheader": "Temperature-controlled transport options to keep your goods safe and compliant.",
+        "categories": [
+          {
+            "key": "chilled",
+            "label": "Chilled Goods",
+            "description": "Optimized for dairy, produce, and beverages",
+            "features": [
+              "2–8°C temperature range",
+              "Real-time temperature telemetry",
+              "Validated cold chain procedures",
+              "Food-grade sanitization"
+            ],
+            "image": { "src": "/IMG_8933.webp", "alt": "Chilled cargo" }
+          },
+          {
+            "key": "frozen",
+            "label": "Frozen Goods",
+            "description": "Deep-freeze transport for meats and pharma",
+            "features": [
+              "-20°C to -30°C temperature bands",
+              "Door-open event alerts",
+              "GPS route optimization",
+              "Batch-level audit trails"
+            ],
+            "image": { "src": "/IMG_8933.webp", "alt": "Frozen cargo" }
+          },
+          {
+            "key": "pharma",
+            "label": "Pharmaceuticals",
+            "description": "Strict compliance for sensitive medicines",
+            "features": [
+              "GDP-compliant handling",
+              "24/7 monitored sensors",
+              "Chain-of-custody records",
+              "Exception management"
+            ],
+            "image": { "src": "/IMG_8933.webp", "alt": "Pharma cold chain" }
+          },
+          {
+            "key": "multi-temp",
+            "label": "Multi-Temp",
+            "description": "Mixed-temperature loads in a single trip",
+            "features": [
+              "Zoned compartments",
+              "Independent controllers",
+              "High availability units",
+              "Disaster recovery plans"
+            ],
+            "image": { "src": "/IMG_8933.webp", "alt": "Multi-temp compartments" }
+          }
+        ]
+      }
+    },
+    {
+      "category": "wingbox",
+      "data": {
+        "header": "Wingbox Fleet Services",
+        "subheader": "High-capacity side-opening trucks for faster loading and safer deliveries.",
+        "categories": [
+          {
+            "key": "standard",
+            "label": "Standard Wingbox",
+            "description": "Reliable capacity for day-to-day operations",
+            "features": [
+              "Quick side access",
+              "Load-securing rails",
+              "Pallet-friendly floors",
+              "GPS tracking"
+            ],
+            "image": { "src": "/IMG_8906.JPG", "alt": "Wingbox standard" }
+          },
+          {
+            "key": "heavy",
+            "label": "Heavy-Duty",
+            "description": "Enhanced suspension and chassis for heavy loads",
+            "features": [
+              "Reinforced frame",
+              "Lift-assist wings",
+              "High payload rating",
+              "Driver safety systems"
+            ],
+            "image": { "src": "/IMG_8906.JPG", "alt": "Wingbox heavy duty" }
+          }
+        ]
+      }
+    }
+  ]
+}
+

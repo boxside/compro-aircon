@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { MessageSquareQuote } from "lucide-react";
 
@@ -8,7 +8,7 @@ export type Project = {
   id: string;
   title: string;
   summary: string;
-  image: string;
+  image:  StaticImageData | string;
   quote?: string;
   person?: { name: string; role: string };
   href?: string;

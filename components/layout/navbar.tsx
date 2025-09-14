@@ -22,6 +22,30 @@ export function NavigationMenuDemo() {
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
 
+  // Load Services dropdown from public JSON
+  type NavFeatureItem = { key: string; label?: string }
+  type NavFeaturePayload = { categories: NavFeatureItem[] }
+  type NavServicesGlobal = { categoryServices: { category: string; data: NavFeaturePayload }[] }
+  const [servicesData, setServicesData] = useState<NavServicesGlobal | null>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    async function load() {
+      try {
+        const res = await fetch("/data/services.json", { cache: "no-store" })
+        if (!res.ok) return
+        const json = (await res.json()) as NavServicesGlobal
+        if (!cancelled) setServicesData(json)
+      } catch {
+        // ignore; keep static links if desired
+      }
+    }
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   // Refs penting untuk click-outside yg akurat
   const menuRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
@@ -119,54 +143,24 @@ export function NavigationMenuDemo() {
                   Services
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="left-auto right-0">
-                  <ul className="grid w-[200px] gap-4 p-3">
-                    <li className="flex flex-col gap-1">
-                      <span className="text-xs font-semibold text-muted-foreground">ABC</span>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/a"
-                          className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          a
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/b"
-                          className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          b
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/c"
-                          className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          c
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-
-                    <li className="flex flex-col gap-1">
-                      <span className="text-xs font-semibold text-muted-foreground">DEF</span>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/d"
-                          className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          d
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          href="/e"
-                          className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          e
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
+                  <ul className="grid w-[240px] gap-4 p-3">
+                    {servicesData?.categoryServices?.map((svc) => (
+                      <li key={svc.category} className="flex flex-col gap-1">
+                        <span className="text-xs font-semibold text-muted-foreground">
+                          {svc.category.charAt(0).toUpperCase() + svc.category.slice(1)}
+                        </span>
+                        {svc.data.categories?.map((item) => (
+                          <NavigationMenuLink asChild key={`${svc.category}-${item.key}`}>
+                            <Link
+                              href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
+                              className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
+                            >
+                              {item.label || item.key}
+                            </Link>
+                          </NavigationMenuLink>
+                        ))}
+                      </li>
+                    ))}
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -236,37 +230,29 @@ export function NavigationMenuDemo() {
               </Link>
             </div>
 
-            {/* Simple with groups */}
+            {/* Services from JSON with groups */}
             <div className="space-y-2">
-              <div className="font-medium text-foreground">Simple</div>
+              <div className="font-medium text-foreground">Services</div>
               <div className="pl-4 space-y-3 text-sm text-muted-foreground">
-                <div>
-                  <div className="text-xs font-semibold text-muted-foreground mb-1">ABC</div>
-                  <div className="flex flex-col gap-1">
-                    <Link href="/a" onClick={() => setIsOpen(false)} className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
-                      a
-                    </Link>
-                    {/* Hindari '#' agar route change memicu penutupan otomatis */}
-                    <Link href="/b" onClick={() => setIsOpen(false)} className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
-                      b
-                    </Link>
-                    <Link href="/c" onClick={() => setIsOpen(false)} className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
-                      c
-                    </Link>
+                {servicesData?.categoryServices?.map((svc) => (
+                  <div key={`mobile-${svc.category}`}>
+                    <div className="text-xs font-semibold text-muted-foreground mb-1">
+                      {svc.category.charAt(0).toUpperCase() + svc.category.slice(1)}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      {svc.data.categories?.map((item) => (
+                        <Link
+                          key={`mobile-${svc.category}-${item.key}`}
+                          href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
+                          onClick={() => setIsOpen(false)}
+                          className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
+                        >
+                          {item.label || item.key}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
-
-                <div>
-                  <div className="text-xs font-semibold text-muted-foreground mb-1">DEF</div>
-                  <div className="flex flex-col gap-1">
-                    <Link href="/d" onClick={() => setIsOpen(false)} className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
-                      d
-                    </Link>
-                    <Link href="/e" onClick={() => setIsOpen(false)} className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground">
-                      e
-                    </Link>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
