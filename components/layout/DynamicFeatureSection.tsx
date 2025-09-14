@@ -66,6 +66,7 @@ export function DynamicFeatureSection({
   const [active, setActive] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const params = useSearchParams()
+  const paramsKey = params?.toString()
 
   // default JSON di public/data/services.json
   const defaultUrl = withBase("/data/services.json")
@@ -103,7 +104,7 @@ export function DynamicFeatureSection({
       }
     })()
     // depend on stringified params to avoid object identity changes
-  }, [configured, category, params?.toString()])
+  }, [configured, category, paramsKey])
 
   const activeCategory = useMemo(() => {
     if (!payload || !active) return null
