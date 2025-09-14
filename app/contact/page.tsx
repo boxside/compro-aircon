@@ -143,7 +143,7 @@ export default function ContactPage() {
             loading="lazy"
             allowFullScreen
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9933.064334336286!2d-0.1269103!3d51.5015974!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b8d77dbe41%3A0x4a6b36dbe8c0635b!2sRiverside%20Building%2C%20County%20Hall!5e0!3m2!1sen!2suk!4v1700000000000"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63788.85202574807!2d107.01182885134918!3d-6.24445074835662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e698fae926c1c81%3A0x961901dd9fcba6da!2sPT%20Albatros%20Logistik%20Express%20(Bulak%20Kapal)!5e1!3m2!1sid!2sid!4v1757856065944!5m2!1sid!2sid"
           />
 
           <div className="rounded-xl border bg-card/60 backdrop-blur-sm p-5 md:p-6 space-y-5">
@@ -152,7 +152,7 @@ export default function ContactPage() {
               <div>
                 <div className="font-semibold">Visit us</div>
                 <div className="text-sm text-muted-foreground">
-                  100 Smith Street, Melbourne VIC 3000, Australia
+                  Jl. HM. Joyo Martono No.8, Margahayu, Kec. Bekasi Tim., Kota Bks, Jawa Barat 17113
                 </div>
               </div>
             </div>

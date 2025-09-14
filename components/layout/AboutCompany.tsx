@@ -17,10 +17,10 @@ export default function AboutCompany({
   title = "Mitra Logistik Terpercaya",
   subtitle =
     "Kami membantu bisnis mengirimkan barang dengan aman, cepat, dan transparan. Dengan jaringan distribusi luas, armada terintegrasi, serta tim berpengalaman, kami memastikan rantai pasok Anda berjalan mulus dari hulu ke hilir.",
-  missionTitle = "MISI KAMI",
+  missionTitle = "Misi Kami",
   missionText =
     "Kami ingin meruntuhkan hambatan logistik agar setiap produk dapat bergerak lebih cepat, aman, dan terjangkau ke mana pun tujuannya. Kami menghadirkan layanan end-to-end yang transparan sehingga bisnis dari skala apa pun bisa fokus bertumbuh.",
-  visionTitle = "VISI KAMI",
+  visionTitle = "Visi Kami",
   visionText =
     "Kami membangun ekosistem logistik yang cerdas dan berkelanjutan—tempat di mana setiap pelaku usaha di Indonesia dapat memulai, mengembangkan, dan menjangkau pasar global tanpa batas.",
   valuesTitle = "Nilai-Nilai Kami",

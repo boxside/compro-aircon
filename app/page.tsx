@@ -52,20 +52,12 @@ export default function Home() {
 
         items={[
           {
-            title: "Layanan Rumah Tangga",
+            title: "Wingbox Trucking",
             caption:
               "AC rusak di saat cuaca terik? Atau listrik melonjak karena mesin tak terawat? Tim kami hadir untuk memastikan sistem pendingin, pemanas, dan ventilasi Anda selalu bekerja optimal. Dari instalasi baru, servis rutin, hingga emergency repair—semua bisa Anda percayakan pada kami.",
             buttonText: "Learn more",
-            buttonHref: "/workflow",
+            buttonHref: "/services/wingbox/",
             imageSrc: "./IMG_8933.webp",
-          },
-          {
-            title: "Layanan Bisnis",
-            caption:
-              "Lingkungan kerja yang nyaman meningkatkan produktivitas maupun kepuasan pelanggan. Layanan kami mencakup Instalasi skala besar maupun pemeliharaan preventif untuk kantor, restoran, toko, dan pabrik.",
-            buttonText: "Learn more",
-            buttonHref: "/collaboration",
-            imageSrc: "./vite.svg",
           },
         ]}
       />

@@ -1,6 +1,75 @@
 {
   "categoryServices": [
     {
+      "category": "wingbox",
+      "data": {
+        "header": "Wingbox Fleet Services",
+        "subheader": "High-capacity side-opening trucks for faster loading and safer deliveries.",
+        "categories": [
+          {
+            "key": "tronton",
+            "label": "Tronton",
+            "description": "Reliable capacity for day-to-day operations",
+            "features": [
+              "Quick side access",
+              "Load-securing rails",
+              "Pallet-friendly floors",
+              "GPS tracking"
+            ],
+            "image": {
+              "src": "/HINO.png",
+              "alt": "Wingbox Tronton"
+            }
+          },
+          {
+            "key": "fuso",
+            "label": "Fuso",
+            "description": "Enhanced suspension and chassis for heavy loads",
+            "features": [
+              "Reinforced frame",
+              "Lift-assist wings",
+              "High payload rating",
+              "Driver safety systems"
+            ],
+            "image": {
+              "src": "/ISUZU.png",
+              "alt": "Wingbox Fuso"
+            }
+          },
+          {
+            "key": "cddlong",
+            "label": "CDD Long",
+            "description": "Enhanced suspension and chassis for heavy loads",
+            "features": [
+              "Reinforced frame",
+              "Lift-assist wings",
+              "High payload rating",
+              "Driver safety systems"
+            ],
+            "image": {
+              "src": "/ISUZU.png",
+              "alt": "Wingbox Fuso"
+            }
+          },
+          {
+            "key": "cddstandard",
+            "label": "CDD Standard",
+            "description": "Enhanced suspension and chassis for heavy loads",
+            "features": [
+              "Reinforced frame",
+              "Lift-assist wings",
+              "High payload rating",
+              "Driver safety systems"
+            ],
+            "image": {
+              "src": "/ISUZU.png",
+              "alt": "Wingbox Fuso"
+            }
+          }
+        ]
+      }
+    },  
+    {
       "category": "refrigerated",
       "data": {
         "header": "Refrigerated Logistics Solutions",
@@ -16,7 +85,10 @@
               "Validated cold chain procedures",
               "Food-grade sanitization"
             ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Chilled cargo" }
+            "image": {
+              "src": "/IMG_8933.webp",
+              "alt": "Chilled cargo"
+            }
           },
           {
             "key": "frozen",
@@ -28,7 +100,10 @@
               "GPS route optimization",
               "Batch-level audit trails"
             ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Frozen cargo" }
+            "image": {
+              "src": "/IMG_8933.webp",
+              "alt": "Frozen cargo"
+            }
           },
           {
             "key": "pharma",
@@ -40,7 +115,10 @@
               "Chain-of-custody records",
               "Exception management"
             ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Pharma cold chain" }
+            "image": {
+              "src": "/IMG_8933.webp",
+              "alt": "Pharma cold chain"
+            }
           },
           {
             "key": "multi-temp",
@@ -52,44 +130,13 @@
               "High availability units",
               "Disaster recovery plans"
             ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Multi-temp compartments" }
-          }
-        ]
-      }
-    },
-    {
-      "category": "wingbox",
-      "data": {
-        "header": "Wingbox Fleet Services",
-        "subheader": "High-capacity side-opening trucks for faster loading and safer deliveries.",
-        "categories": [
-          {
-            "key": "standard",
-            "label": "Standard Wingbox",
-            "description": "Reliable capacity for day-to-day operations",
-            "features": [
-              "Quick side access",
-              "Load-securing rails",
-              "Pallet-friendly floors",
-              "GPS tracking"
-            ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Wingbox standard" }
-          },
-          {
-            "key": "heavy",
-            "label": "Heavy-Duty",
-            "description": "Enhanced suspension and chassis for heavy loads",
-            "features": [
-              "Reinforced frame",
-              "Lift-assist wings",
-              "High payload rating",
-              "Driver safety systems"
-            ],
-            "image": { "src": "/IMG_8933.webp", "alt": "Wingbox heavy duty" }
+            "image": {
+              "src": "/IMG_8933.webp",
+              "alt": "Multi-temp compartments"
+            }
           }
         ]
       }
     }
   ]
 }
-

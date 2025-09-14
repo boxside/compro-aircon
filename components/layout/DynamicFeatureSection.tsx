@@ -1,16 +1,11 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { useSearchParams } from "next/navigation"
+// removed useSearchParams to avoid Suspense requirement during prerender
 import Image from "next/image"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+// merged content uses a single wrapper box instead of Card components
 import { cn } from "@/lib/utils"
 
 type FeatureCategory = {
@@ -52,11 +47,18 @@ export function DynamicFeatureSection({
   const [payload, setPayload] = useState<FeaturePayload | null>(null)
   const [active, setActive] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const params = useSearchParams()
+  const [searchK, setSearchK] = useState<string | undefined>(undefined)
 
   // default file JSON di public/data/services.json
   const defaultUrl = withBase("/data/services.json")
   const configured = dataUrl ? withBase(dataUrl) : defaultUrl
+
+  // read ?k= from client only
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const k = new URLSearchParams(window.location.search).get('k') || undefined
+    setSearchK(k)
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -83,7 +85,7 @@ export function DynamicFeatureSection({
 
         if (!cancelled && selected) {
           setPayload(selected)
-          const urlKey = params.get("k") || undefined
+          const urlKey = searchK
           const valid = urlKey && selected.categories.some((c) => c.key === urlKey)
           setActive((valid && urlKey) || selected.categories?.[0]?.key || null)
         }
@@ -96,7 +98,7 @@ export function DynamicFeatureSection({
     return () => {
       cancelled = true
     }
-  }, [configured, category, params])
+  }, [configured, category, searchK])
 
   const activeCategory = useMemo(() => {
     if (!payload || !active) return null
@@ -155,40 +157,48 @@ export function DynamicFeatureSection({
         })}
       </div>
 
-      {/* CONTENT CARD */}
+      {/* MERGED CONTENT BOX: text and image in one wrapper */}
       {activeCategory && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle className="text-xl md:text-2xl">
+        <div key={active || "_"} className="rounded-xl overflow-hidden animate-fade-in-up">
+          <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+            {/* Text side */}
+            <div className="p-6 md:p-8">
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
                 {activeCategory.label}
-              </CardTitle>
+              </h2>
               {activeCategory.description && (
-                <CardDescription>{activeCategory.description}</CardDescription>
+                <p className="mt-2 text-base md:text-lg text-muted-foreground">
+                  {activeCategory.description}
+                </p>
               )}
-            </CardHeader>
-            <CardContent>
-              <ul className="space-y-3 text-sm md:text-base">
+              <ul className="mt-5 space-y-3 text-base md:text-lg">
                 {activeCategory.features.map((f, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="mt-1 size-1.5 rounded-full bg-foreground inline-block" />
+                    <span className="mt-2 size-1.5 rounded-full bg-foreground inline-block" />
                     <span>{f}</span>
                   </li>
                 ))}
               </ul>
-            </CardContent>
-          </Card>
+              <div className="mt-6">
+                <Link href="/contact">
+                  <Button size="lg">
+                    {`Pesan ${category.charAt(0).toUpperCase() + category.slice(1)} ${activeCategory.label}`}
+                  </Button>
+                </Link>
+              </div>
+            </div>
 
-          {/* IMAGE WITH BASE PATH */}
-          <div className="relative w-full h-64 md:h-auto md:min-h-[320px] rounded-xl overflow-hidden border">
-            <Image
-              src={withBase(activeCategory.image.src)}
-              alt={activeCategory.image.alt || activeCategory.label}
-              fill
-              className="object-cover"
-              sizes="(min-width: 768px) 50vw, 100vw"
-              priority
-            />
+            {/* Image side */}
+            <div className="relative w-full h-72 md:min-h-[420px] bg-background/50">
+              <Image
+                src={withBase(activeCategory.image.src)}
+                alt={activeCategory.image.alt || activeCategory.label}
+                fill
+                className="object-contain object-center"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
+              />
+            </div>
           </div>
         </div>
       )}
