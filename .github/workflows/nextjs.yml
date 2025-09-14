@@ -28,7 +28,7 @@ jobs:
       - name: Build & Export
         run: npm run static
         env:
-          NEXT_PUBLIC_PAGES_BASE_PATH: "/compro-aircon"  # <-- ganti sesuai repo
+          NEXT_PUBLIC_PAGES_BASE_PATH: "/${{ github.event.repository.name }}"
       - run: touch out/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
