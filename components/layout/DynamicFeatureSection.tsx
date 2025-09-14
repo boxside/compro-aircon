@@ -4,7 +4,13 @@ import { useEffect, useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 
 type FeatureCategory = {
@@ -12,7 +18,10 @@ type FeatureCategory = {
   label: string
   description?: string
   features: string[]
-  image: { src: string; alt?: string }
+  image: {
+    src: string
+    alt?: string
+  }
 }
 
 type FeaturePayload = {
@@ -22,39 +31,17 @@ type FeaturePayload = {
 }
 
 type ServicesGlobal = {
-  categoryServices: Array<{ category: string; data: FeaturePayload }>
+  categoryServices: Array<{
+    category: string
+    data: FeaturePayload
+  }>
 }
 
-/* ---------------- helpers ---------------- */
-function isAbsoluteUrl(u: string) {
-  return /^(https?:)?\/\//i.test(u) || /^data:/i.test(u)
-}
-
-function stripDotSlash(p: string) {
-  return p.startsWith("./") ? p.slice(2) : p
-}
-
-/** Prefix path relatif dengan basePath.
- * - Tidak mem-prefix URL absolut
- * - Hindari double prefix
- * - Normalisasi slash
- */
 function withBase(path: string) {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH || ""
-  const clean = stripDotSlash(path)
-
-  if (isAbsoluteUrl(clean)) return clean
-
-  const p = clean.startsWith("/") ? clean : `/${clean}`
-  if (!base) return p
-
-  // jika sudah berawalan base, jangan diprefix lagi
-  if (p.startsWith(base + "/") || p === base) return p
-
-  return `${base}${p}`.replace(/\/{2,}/g, "/")
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
+  return `${base}${path.startsWith('/') ? path : '/' + path}`
 }
 
-/* -------------- component ----------------- */
 export function DynamicFeatureSection({
   dataUrl,
   category,
@@ -66,51 +53,57 @@ export function DynamicFeatureSection({
   const [active, setActive] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const params = useSearchParams()
-  const paramsKey = params?.toString()
 
-  // default JSON di public/data/services.json
+  // default file JSON di public/data/services.json
   const defaultUrl = withBase("/data/services.json")
-  const configured = dataUrl
-    ? isAbsoluteUrl(dataUrl) ? dataUrl : withBase(dataUrl)
-    : defaultUrl
+  const configured = dataUrl ? withBase(dataUrl) : defaultUrl
 
   useEffect(() => {
     let cancelled = false
-    ;(async () => {
+    async function load() {
       try {
         setError(null)
         const res = await fetch(configured, { cache: "no-store" })
-        if (!res.ok) throw new Error(`Failed to fetch: ${configured} (${res.status})`)
+
+        if (!res.ok) {
+          throw new Error(`Failed to fetch: ${configured} (${res.status})`)
+        }
 
         const raw = await res.json()
         let selected: FeaturePayload | null = null
 
         if (raw && typeof raw === "object" && "categoryServices" in raw) {
-          const found = (raw as ServicesGlobal).categoryServices.find(s => s.category === category)
+          const global = raw as ServicesGlobal
+          const found = global.categoryServices.find((s) => s.category === category)
           if (!found) throw new Error(`Category not found: ${category}`)
           selected = found.data
         } else {
           selected = raw as FeaturePayload
         }
 
-        if (!cancelled) {
+        if (!cancelled && selected) {
           setPayload(selected)
           const urlKey = params.get("k") || undefined
-          const valid = urlKey && selected.categories.some(c => c.key === urlKey)
+          const valid = urlKey && selected.categories.some((c) => c.key === urlKey)
           setActive((valid && urlKey) || selected.categories?.[0]?.key || null)
         }
-      } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Failed to load data")
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : "Failed to load data"
+        if (!cancelled) setError(message)
       }
-    })()
-    // depend on stringified params to avoid object identity changes
-  }, [configured, category, paramsKey])
+    }
+    load()
+    return () => {
+      cancelled = true
+    }
+  }, [configured, category, params])
 
   const activeCategory = useMemo(() => {
     if (!payload || !active) return null
-    return payload.categories.find(c => c.key === active) || null
+    return payload.categories.find((c) => c.key === active) || null
   }, [payload, active])
 
+  /** ERROR STATE */
   if (error) {
     return (
       <div className="mx-auto w-full max-w-none px-4 sm:px-6 lg:px-8 pt-6">
@@ -122,6 +115,7 @@ export function DynamicFeatureSection({
     )
   }
 
+  /** LOADING STATE */
   if (!payload) {
     return (
       <div className="mx-auto w-full max-w-none px-4 sm:px-6 lg:px-8 pt-6 animate-pulse text-muted-foreground">
@@ -130,18 +124,23 @@ export function DynamicFeatureSection({
     )
   }
 
+  /** MAIN CONTENT */
   return (
     <section className="mx-auto w-full max-w-none px-4 sm:px-6 lg:px-8 pt-6 md:pt-10 pb-10">
       <div className="text-center mb-6 md:mb-8">
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">{payload.header}</h1>
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
+          {payload.header}
+        </h1>
         {payload.subheader && (
-          <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">{payload.subheader}</p>
+          <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
+            {payload.subheader}
+          </p>
         )}
       </div>
 
-      {/* options */}
+      {/* OPTIONS BUTTON */}
       <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-6 md:mb-8">
-        {payload.categories.map(c => {
+        {payload.categories.map((c) => {
           const isActive = c.key === active
           return (
             <Button
@@ -156,12 +155,14 @@ export function DynamicFeatureSection({
         })}
       </div>
 
-      {/* content */}
+      {/* CONTENT CARD */}
       {activeCategory && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 items-stretch">
           <Card className="h-full">
             <CardHeader>
-              <CardTitle className="text-xl md:text-2xl">{activeCategory.label}</CardTitle>
+              <CardTitle className="text-xl md:text-2xl">
+                {activeCategory.label}
+              </CardTitle>
               {activeCategory.description && (
                 <CardDescription>{activeCategory.description}</CardDescription>
               )}
@@ -178,9 +179,10 @@ export function DynamicFeatureSection({
             </CardContent>
           </Card>
 
+          {/* IMAGE WITH BASE PATH */}
           <div className="relative w-full h-64 md:h-auto md:min-h-[320px] rounded-xl overflow-hidden border">
             <Image
-              src={isAbsoluteUrl(activeCategory.image.src) ? activeCategory.image.src : withBase(activeCategory.image.src)}
+              src={withBase(activeCategory.image.src)}
               alt={activeCategory.image.alt || activeCategory.label}
               fill
               className="object-cover"
