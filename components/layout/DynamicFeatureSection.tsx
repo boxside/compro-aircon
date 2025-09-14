@@ -43,15 +43,52 @@ export function DynamicFeatureSection({ dataUrl, category }: { dataUrl?: string;
   const [error, setError] = useState<string | null>(null)
   const params = useSearchParams()
   const defaultUrl = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/data/services.json`
-  const url = dataUrl ?? defaultUrl
+  const configured = dataUrl ?? defaultUrl
+
+  function buildCandidates(): string[] {
+    // If an absolute URL is provided, use only that.
+    try {
+      const u = new URL(configured, typeof window !== 'undefined' ? window.location.origin : 'http://localhost')
+      if (u.origin !== (typeof window !== 'undefined' ? window.location.origin : 'http://localhost')) {
+        return [configured]
+      }
+    } catch {
+      // not absolute; continue
+    }
+
+    const candidates = new Set<string>()
+    const base = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+    const trimmed = configured.replace(/^\//, '')
+    // 1) basePath + path
+    candidates.add(`${base}/${trimmed}`.replace(/\/+/g, '/'))
+    // 2) absolute root
+    candidates.add(`/${trimmed}`)
+    // 3) relative
+    candidates.add(trimmed)
+    return Array.from(candidates)
+  }
 
   useEffect(() => {
     let cancelled = false
     async function load() {
       try {
         setError(null)
-        const res = await fetch(url, { cache: "no-store" })
-        if (!res.ok) throw new Error(`Failed to load ${url}`)
+        const attempts = buildCandidates()
+        let res: Response | null = null
+        let lastErr: string | null = null
+        for (const candidate of attempts) {
+          try {
+            const r = await fetch(candidate, { cache: "no-store" })
+            if (r.ok) {
+              res = r
+              break
+            }
+            lastErr = `${r.status} ${r.statusText}`
+          } catch (err: unknown) {
+            lastErr = err instanceof Error ? err.message : String(err)
+          }
+        }
+        if (!res) throw new Error(`Failed to load JSON. Tried: ${attempts.join(' , ')}. Last error: ${lastErr || 'unknown'}`)
         const raw = await res.json()
         let selected: FeaturePayload | null = null
         if (raw && typeof raw === "object" && "categoryServices" in raw) {
