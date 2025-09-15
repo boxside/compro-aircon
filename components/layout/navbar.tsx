@@ -130,15 +130,6 @@ export function NavigationMenuDemo() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <Link
-                  href="/projects"
-                  className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
-                >
-                  Projects
-                </Link>
-              </NavigationMenuItem>
-
-              <NavigationMenuItem>
                 <NavigationMenuTrigger
                   className="px-4 py-2 rounded-md font-semibold text-foreground text-base leading-6 hover:bg-accent transition-colors bg-transparent data-[state=open]:!bg-transparent focus:outline-none"
                 >
@@ -169,14 +160,6 @@ export function NavigationMenuDemo() {
 
               <NavigationMenuItem>
                 <Link
-                  href="/faq"
-                  className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
-                >
-                  FAQ
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link
                   href="/contact"
                   className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
                 >
@@ -186,7 +169,7 @@ export function NavigationMenuDemo() {
               <NavigationMenuItem>
                 <Link
                   href="/lacak"
-                  className="px-4 py-2 rounded-md font-semibold bg-chart-3 text-black transition-colors hover:bg-chart-2/80"
+                  className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-black transition-colors hover:bg-chart-2/20"
                 >
                   Lacak pengiriman anda
                 </Link>
@@ -234,11 +217,6 @@ export function NavigationMenuDemo() {
               </Link>
             </div>
 
-            <div className="space-y-2">
-              <Link href="/projects" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
-                Projects
-              </Link>
-            </div>
 
             {/* Services from JSON with groups */}
             <div className="space-y-2">
@@ -264,12 +242,6 @@ export function NavigationMenuDemo() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            <div className="space-y-2">
-              <Link href="/faq" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
-                FAQ
-              </Link>
             </div>
 
             <div className="space-y-2">

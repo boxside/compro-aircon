@@ -158,7 +158,19 @@ export function DynamicFeatureSection({
       {/* MERGED CONTENT BOX: text and image in one wrapper */}
       {activeCategory && (
         <div key={active || "_"} className="rounded-xl overflow-hidden animate-fade-in-up">
+
           <div className="grid grid-cols-1 md:grid-cols-2 items-stretch">
+            {/* Image side */}
+            <div className="relative w-full h-72 md:min-h-[420px] bg-background/50">
+              <Image
+                src={withBase(activeCategory.image.src)}
+                alt={activeCategory.image.alt || activeCategory.label}
+                fill
+                className="object-contain object-center"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                priority
+              />
+            </div>
             {/* Text side */}
             <div className="p-6 md:p-8">
               <h2 className="text-2xl md:text-3xl font-semibold tracking-tight">
@@ -193,17 +205,7 @@ export function DynamicFeatureSection({
               </div>
             </div>
 
-            {/* Image side */}
-            <div className="relative w-full h-72 md:min-h-[420px] bg-background/50">
-              <Image
-                src={withBase(activeCategory.image.src)}
-                alt={activeCategory.image.alt || activeCategory.label}
-                fill
-                className="object-contain object-center"
-                sizes="(min-width: 768px) 50vw, 100vw"
-                priority
-              />
-            </div>
+
           </div>
         </div>
       )}
