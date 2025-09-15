@@ -30,6 +30,7 @@ export default function HeroCarousel({
   const [mounted, setMounted] = useState(false)
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
   const timerRef = useRef<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
 
   // ✅ resolve theme agar "system" ikut OS
   useEffect(() => {
@@ -44,23 +45,42 @@ export default function HeroCarousel({
   useEffect(() => {
     setMounted(true)
   }, [])
+  type NavigatorWithUAData = Navigator & {
+    userAgentData?: { mobile?: boolean }
+  }
+  // Detect mobile by device capabilities, not width (no max-width rule)
+  useEffect(() => {
+    const nav = navigator as NavigatorWithUAData
+    const uaMobile =
+      nav.userAgentData?.mobile === true ||
+      /Android|iPhone|iPad|iPod|Windows Phone|webOS|BlackBerry/i.test(nav.userAgent)
+    const touchMobile = nav.maxTouchPoints > 1 || ("ontouchstart" in window)
+    setIsMobile(Boolean(uaMobile || touchMobile))
+  }, [])
+
+  const renderedSlides = isMobile ? slides.slice(0, 1) : slides
 
   useEffect(() => {
-    if (!slides.length || slides.length <= 1) return
+    if (!renderedSlides.length || renderedSlides.length <= 1) return
     if (timerRef.current) window.clearInterval(timerRef.current)
     timerRef.current = window.setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length)
+      setIndex((prev) => (prev + 1) % renderedSlides.length)
     }, intervalMs)
     return () => {
       if (timerRef.current) window.clearInterval(timerRef.current)
     }
-  }, [slides, intervalMs])
+  }, [renderedSlides, intervalMs])
 
-  const goTo = (i: number) => setIndex((i + slides.length) % slides.length)
+  // Ensure index resets when switching to mobile single slide
+  useEffect(() => {
+    if (isMobile) setIndex(0)
+  }, [isMobile])
+
+  const goTo = (i: number) => setIndex((i + renderedSlides.length) % renderedSlides.length)
   const next = () => goTo(index + 1)
   const prev = () => goTo(index - 1)
 
-  if (!slides.length) {
+  if (!renderedSlides.length) {
     return (
       <div className="w-full h-svh flex items-center justify-center">
         No slides available
@@ -85,7 +105,7 @@ export default function HeroCarousel({
           transitionDuration: "3000ms",
         }}
       >
-        {slides.map((s, i) => (
+        {renderedSlides.map((s, i) => (
           <div
             key={i}
             className="relative min-w-full h-svh flex-shrink-0"
@@ -110,12 +130,21 @@ export default function HeroCarousel({
               "pointer-events-none absolute inset-0",
               resolvedTheme === "dark"
                 ? "bg-gradient-to-b from-black/70 via-black/40 to-black/70"
-                : "bg-gradient-to-b from-white/60 via-white/30 to-white/60"
+                : "bg-gradient-to-b from-white/80 via-white/40 to-white/60"
+            )}
+          />
+          {/* Stronger bottom fade to increase header readability */}
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-x-0 bottom-0 h-1/3",
+              resolvedTheme === "dark"
+                ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                : "bg-gradient-to-t from-white/80 via-white/40 to-transparent"
             )}
           />
 
           {/* Controls */}
-          {slides.length > 1 && (
+          {renderedSlides.length > 1 && (
             <div className="absolute inset-0 z-20 flex items-center justify-between px-4">
               <Button
                 aria-label="Previous slide"
@@ -145,7 +174,7 @@ export default function HeroCarousel({
 
               {/* Dots */}
               <div className="absolute bottom-5 left-0 right-0 flex items-center justify-center gap-2">
-                {slides.map((_, i) => (
+                {renderedSlides.map((_, i) => (
                   <button
                     key={i}
                     aria-label={`Go to slide ${i + 1}`}
@@ -170,19 +199,19 @@ export default function HeroCarousel({
 
       {/* Caption + Subcaption */}
       <div className="relative z-10 flex h-svh items-center justify-center">
-        {(slides[index]?.caption || slides[index]?.subcaption) && (
+        {(renderedSlides[index]?.caption || renderedSlides[index]?.subcaption) && (
           <div
             key={index}
             className="absolute bottom-1/4 text-center max-w-3xl px-4 opacity-0 animate-fade-in-up"
           >
-            {slides[index]?.caption && (
-              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight drop-shadow-sm">
-                {slides[index].caption}
+            {renderedSlides[index]?.caption && (
+              <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight drop-shadow-lg md:drop-shadow-xl">
+                {renderedSlides[index].caption}
               </h1>
             )}
-            {slides[index]?.subcaption && (
-              <p className="mt-4 text-lg md:text-2xl font-medium opacity-90 drop-shadow-sm">
-                {slides[index].subcaption}
+            {renderedSlides[index]?.subcaption && (
+              <p className="mt-4 text-lg md:text-2xl font-medium opacity-90 drop-shadow-md">
+                {renderedSlides[index].subcaption}
               </p>
             )}
           </div>

@@ -109,8 +109,8 @@ export function NavigationMenuDemo() {
           <Image src={logo} alt="Logo" width={40} height={40} />
         </div>
 
-        {/* Desktop */}
-        <div className="hidden md:block">
+        {/* Desktop (show from lg and up to avoid cramped 760–1023px) */}
+        <div className="hidden lg:block">
           <NavigationMenu viewport={false} className="justify-end">
             <NavigationMenuList className="justify-end ml-auto">
               <NavigationMenuItem>
@@ -184,14 +184,22 @@ export function NavigationMenuDemo() {
                 </Link>
               </NavigationMenuItem>
               <NavigationMenuItem>
+                <Link
+                  href="/lacak"
+                  className="px-4 py-2 rounded-md font-semibold bg-chart-3 text-black transition-colors hover:bg-chart-2/80"
+                >
+                  Lacak pengiriman anda
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
                 <ThemeToggle />
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
         </div>
 
-        {/* Mobile Toggle */}
-        <div className="md:hidden flex items-center gap-2">
+        {/* Mobile/Tablet Toggle */}
+        <div className="lg:hidden flex items-center gap-2">
           <ThemeToggle />
           <button
             ref={buttonRef}
@@ -206,12 +214,12 @@ export function NavigationMenuDemo() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile/Tablet Menu */}
       {isOpen && (
         <div
           id="mobile-menu"
           ref={menuRef}
-          className="mobile-menu md:hidden bg-background/95 backdrop-blur-md border-t border-border/50 shadow-lg z-[60]"
+          className="mobile-menu lg:hidden bg-background/95 backdrop-blur-md border-t border-border/50 shadow-lg z-[60]"
         >
           <div className="px-6 py-4 space-y-4">
             <div className="space-y-2">
@@ -267,6 +275,15 @@ export function NavigationMenuDemo() {
             <div className="space-y-2">
               <Link href="/contact" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
                 Contact
+              </Link>
+            </div>
+            <div className="space-y-2">
+              <Link
+                href="/lacak"
+                onClick={() => setIsOpen(false)}
+                className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit"
+              >
+                Lacak pengiriman anda
               </Link>
             </div>
           </div>

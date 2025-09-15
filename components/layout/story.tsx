@@ -39,9 +39,8 @@ export function OurStory() {
                         </h3>
                         <p className="mt-4 text-foreground/80 text-base leading-relaxed">
                             Kami adalah perusahaan logistik yang berfokus pada ketepatan waktu, transparansi, dan keamanan pengiriman.
-                            Dengan armada yang terintegrasi, jaringan distribusi yang luas, serta tim berpengalaman, kami menyediakan
-                            solusi end-to-end mulai dari pengiriman darat, laut, dan udara, pergudangan, distribusi, hingga manajemen
-                            rantai pasok. Semua didukung dashboard pelacakan real-time agar Anda selalu punya kendali atas kiriman.
+                            Dengan armada yang terintegrasi, jaringan distribusi yang luas, serta tim berpengalaman, 
+                            Kami memastikan setiap paket Anda sampai dengan tenang dan cukup waktu, dari gudang hingga depan pintu penerima.
                         </p>
                         <div className="mt-8">
                             <h4 className="text-base font-semibold text-foreground/70">
@@ -58,10 +57,10 @@ export function OurStory() {
                         </div>
                         <div className="mt-8 flex space-x-4">
                             <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
-                                Pelajari layanan kami
+                                Tentang Kami
                             </Button>
                             <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
-                                Lihat studi kasus
+                                Lihat Proyek Kami
                             </Button>
                         </div>
                     </div>

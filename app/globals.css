@@ -151,3 +151,19 @@
   animation-play-state: paused; /* berhenti pas hover */
 }
 
+/* Services carousel scaling: scale inner card for reliable effect */
+.services-swiper .service-card {
+  transition: transform 300ms ease, opacity 300ms ease, box-shadow 300ms ease;
+  transform: scale(0.92);
+  opacity: 0.8;
+}
+.services-swiper .swiper-slide-prev .service-card,
+.services-swiper .swiper-slide-next .service-card {
+  transform: scale(0.96);
+  opacity: 0.92;
+}
+.services-swiper .swiper-slide-active .service-card {
+  transform: scale(1.08);
+  opacity: 1;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.2);
+}

@@ -178,11 +178,18 @@ export function DynamicFeatureSection({
                 ))}
               </ul>
               <div className="mt-6">
-                <Link href="/contact">
-                  <Button size="lg">
-                    {`Pesan ${category.charAt(0).toUpperCase() + category.slice(1)} ${activeCategory.label}`}
-                  </Button>
-                </Link>
+                {(() => {
+                  const cat = category.charAt(0).toUpperCase() + category.slice(1)
+                  const msg = `Halo, Saya mau Mengirim Barang dengan Armada ${cat} ${activeCategory.label}`
+                  const waHref = `https://api.whatsapp.com/send/?phone=628111731443&text=${encodeURIComponent(msg)}&type=phone_number&app_absent=0`
+                  return (
+                    <Link href={waHref} target="_blank" rel="noopener noreferrer">
+                      <Button size="lg">
+                        {`Pesan ${cat} ${activeCategory.label}`}
+                      </Button>
+                    </Link>
+                  )
+                })()}
               </div>
             </div>
 

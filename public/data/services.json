@@ -3,72 +3,72 @@
     {
       "category": "wingbox",
       "data": {
-        "header": "Wingbox Fleet Services",
-        "subheader": "High-capacity side-opening trucks for faster loading and safer deliveries.",
+        "header": "Layanan Armada Wingbox",
+        "subheader": "Truk berkapasitas besar dengan pintu samping untuk proses bongkar muat lebih cepat dan pengiriman lebih aman.",
         "categories": [
           {
             "key": "tronton",
             "label": "Tronton",
-            "description": "Reliable capacity for day-to-day operations",
+            "description": "Kapasitas handal untuk kebutuhan operasional harian.",
             "features": [
-              "Quick side access",
-              "Load-securing rails",
-              "Pallet-friendly floors",
-              "GPS tracking"
+              "Akses samping yang cepat",
+              "Rel pengaman barang",
+              "Lantai ramah palet",
+              "Pelacakan GPS real-time"
             ],
             "image": {
-              "src": "/HINO.png",
+              "src": "/ISUZU.png",
               "alt": "Wingbox Tronton"
             }
           },
           {
             "key": "fuso",
             "label": "Fuso",
-            "description": "Enhanced suspension and chassis for heavy loads",
+            "description": "Suspensi dan rangka yang diperkuat untuk muatan berat.",
             "features": [
-              "Reinforced frame",
-              "Lift-assist wings",
-              "High payload rating",
-              "Driver safety systems"
+              "Rangka yang kokoh dan tahan lama",
+              "Sayap pintu dengan bantuan angkat",
+              "Daya angkut tinggi",
+              "Pelacakan GPS real-time"
             ],
             "image": {
-              "src": "/ISUZU.png",
+              "src": "/HINO.png",
               "alt": "Wingbox Fuso"
             }
           },
           {
             "key": "cddlong",
             "label": "CDD Long",
-            "description": "Enhanced suspension and chassis for heavy loads",
+            "description": "Suspensi dan rangka yang diperkuat untuk pengangkutan beban berat dengan jarak jauh.",
             "features": [
-              "Reinforced frame",
-              "Lift-assist wings",
-              "High payload rating",
-              "Driver safety systems"
+              "Rangka yang kokoh dan tahan lama",
+              "Sayap pintu dengan bantuan angkat",
+              "Daya angkut tinggi",
+              "Pelacakan GPS real-time"
             ],
             "image": {
-              "src": "/ISUZU.png",
-              "alt": "Wingbox Fuso"
+              "src": "/HINO.png",
+              "alt": "Wingbox CDD Long"
             }
           },
           {
             "key": "cddstandard",
             "label": "CDD Standard",
-            "description": "Enhanced suspension and chassis for heavy loads",
+            "description": "Solusi serbaguna untuk distribusi menengah dengan keamanan maksimal.",
             "features": [
-              "Reinforced frame",
-              "Lift-assist wings",
-              "High payload rating",
-              "Driver safety systems"
+              "Rangka yang kokoh dan tahan lama",
+              "Sayap pintu dengan bantuan angkat",
+              "Daya angkut tinggi",
+              "Pelacakan GPS real-time"
             ],
             "image": {
-              "src": "/ISUZU.png",
-              "alt": "Wingbox Fuso"
+              "src": "/HINO.png",
+              "alt": "Wingbox CDD Standard"
             }
           }
         ]
       }
-    },  
+    },
     {
       "category": "refrigerated",
       "data": {
