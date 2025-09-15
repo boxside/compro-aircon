@@ -355,7 +355,7 @@ export default function Circle3DServicesSection({
           title: c.label,
           description: c.description ?? "",
           image: { src: withBase(c.image.src), alt: c.image.alt },
-          href: withBase(`/services/${active}?k=${encodeURIComponent(key)}`),
+          href: `/services/${active}?k=${encodeURIComponent(key)}`,
         } as Card
       }) || []
     )
