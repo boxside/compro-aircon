@@ -4,7 +4,9 @@ import { Suspense } from "react"
 export default function WingboxPage() {
   return (
     <main className="pt-14 md:pt-24 pb-16">
-        <DynamicFeatureSection category="wingbox" />
+        <Suspense fallback={<div className="px-6 pt-6 text-muted-foreground">Loading...</div>}>
+          <DynamicFeatureSection category="wingbox" />
+        </Suspense>
     </main>
   )
 }

@@ -41,11 +41,15 @@ export function FeatureRow({
             reverse ? "md:order-2" : "md:order-1"
           } order-2`}
         >
-          <h3 className="text-2xl font-semibold">{title}</h3>
-          <p className="text-muted-foreground leading-relaxed">{caption}</p>
+          <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold">
+            {title}
+          </h3>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed">
+            {caption}
+          </p>
           <Link
             href={buttonHref}
-            className="inline-block bg-primary text-primary-foreground px-6 py-3 text-center rounded-lg font-medium text-base transition-colors hover:bg-primary/90"
+            className="inline-block bg-primary text-primary-foreground px-5 sm:px-6 py-2.5 sm:py-3 text-center rounded-lg font-medium text-sm sm:text-base transition-colors hover:bg-primary/90"
           >
             {buttonText}
           </Link>
@@ -82,17 +86,17 @@ export function FeaturesSection({
   headerSubtitle,
 }: FeaturesSectionProps) {
   return (
-    <section className="bg-background text-foreground py-20 px-6 md:px-12 min-h-screen">
+    <section className="bg-background text-foreground py-20 px-6 md:px-12">
       {/* Header di luar card */}
       {(headerTitle || headerSubtitle) && (
-        <div className="max-w-3xl mx-auto text-center mb-16 space-y-4">
+        <div className="max-w-4xl mx-auto text-center mb-16 space-y-4">
           {headerTitle && (
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               {headerTitle}
             </h2>
           )}
           {headerSubtitle && (
-            <p className="text-muted-foreground text-lg leading-relaxed">
+            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
               {headerSubtitle}
             </p>
           )}

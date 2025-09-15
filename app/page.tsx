@@ -30,16 +30,16 @@ export default function Home() {
       <HeroCarousel
         slides={[
           {
-            src: "./vite.svg",
+            src: "./IMG_9007.webp",
             caption: "Your Smart Logistic Partner",
             subcaption: "Trained and Certified Driver",
           },
           {
-            src: "./vite.svg",
+            src: "./image.webp",
             caption: "Guaranteed Customer Satisfaction Every Time",
           },
           {
-            src: "./vite.svg",
+            src: "./IMG_9022.webp",
             caption: "Trusted. Reliable. Innovative.",
           },
         ]}
@@ -54,8 +54,8 @@ export default function Home() {
           {
             title: "Wingbox Trucking",
             caption:
-              "AC rusak di saat cuaca terik? Atau listrik melonjak karena mesin tak terawat? Tim kami hadir untuk memastikan sistem pendingin, pemanas, dan ventilasi Anda selalu bekerja optimal. Dari instalasi baru, servis rutin, hingga emergency repair—semua bisa Anda percayakan pada kami.",
-            buttonText: "Learn more",
+              "Kami memahami betapa pentingnya kecepatan dan keamanan dalam pengiriman, Wingbox Truck kami memungkinkan proses loading yang lebih praktis dan barang tetap terlindungi selama perjalanan.",
+            buttonText: "Pesan Wingbox Truck",
             buttonHref: "/services/wingbox/",
             imageSrc: "./IMG_8933.webp",
           },

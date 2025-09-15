@@ -1,12 +1,12 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-// removed useSearchParams to avoid Suspense requirement during prerender
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 // merged content uses a single wrapper box instead of Card components
-import { cn } from "@/lib/utils"
+import { cn, withBase } from "@/lib/utils"
 
 type FeatureCategory = {
   key: string
@@ -32,11 +32,6 @@ type ServicesGlobal = {
   }>
 }
 
-function withBase(path: string) {
-  const base = process.env.NEXT_PUBLIC_BASE_PATH || ''
-  return `${base}${path.startsWith('/') ? path : '/' + path}`
-}
-
 export function DynamicFeatureSection({
   dataUrl,
   category,
@@ -47,18 +42,12 @@ export function DynamicFeatureSection({
   const [payload, setPayload] = useState<FeaturePayload | null>(null)
   const [active, setActive] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [searchK, setSearchK] = useState<string | undefined>(undefined)
+  const searchParams = useSearchParams()
+  const searchK = searchParams?.get("k") || undefined
 
   // default file JSON di public/data/services.json
   const defaultUrl = withBase("/data/services.json")
   const configured = dataUrl ? withBase(dataUrl) : defaultUrl
-
-  // read ?k= from client only
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-    const k = new URLSearchParams(window.location.search).get('k') || undefined
-    setSearchK(k)
-  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -99,6 +88,15 @@ export function DynamicFeatureSection({
       cancelled = true
     }
   }, [configured, category, searchK])
+
+  // React to URL query changes after payload is loaded (client-side navigation)
+  useEffect(() => {
+    if (!payload) return
+    const urlKey = searchK
+    const valid = urlKey && payload.categories.some((c) => c.key === urlKey)
+    const next = (valid && urlKey) || payload.categories?.[0]?.key || null
+    setActive(next)
+  }, [searchK, payload])
 
   const activeCategory = useMemo(() => {
     if (!payload || !active) return null
