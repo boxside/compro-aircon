@@ -77,19 +77,18 @@ export default function ContactPage() {
           <form id="contact-form" onSubmit={onSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm font-medium">First name</label>
+                <label className="text-sm font-medium">Nama Depan</label>
                 <input
                   required
-                  placeholder="First name"
+                  placeholder="Nama Depan"
                   name="firstName"
                   className="mt-1 w-full rounded-md border border-input bg-background/60 dark:bg-input/30 px-3 py-2.5 text-sm outline-none focus:border-ring focus:ring-[3px] focus:ring-ring/50"
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Last name</label>
+                <label className="text-sm font-medium">Nama Akhir</label>
                 <input
-                  required
-                  placeholder="Last name"
+                  placeholder="Nama Akhir"
                   name="lastName"
                   className="mt-1 w-full rounded-md border border-input bg-background/60 dark:bg-input/30 px-3 py-2.5 text-sm outline-none focus:border-ring focus:ring-[3px] focus:ring-ring/50"
                 />
@@ -108,10 +107,10 @@ export default function ContactPage() {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Phone</label>
+                <label className="text-sm font-medium">No. Telepon</label>
                 <input
                   type="tel"
-                  placeholder="Phone"
+                  placeholder="08XXXXXXXXXX"
                   name="nohp"
                   className="mt-1 w-full rounded-md border border-input bg-background/60 dark:bg-input/30 px-3 py-2.5 text-sm outline-none focus:border-ring focus:ring-[3px] focus:ring-ring/50"
                 />
@@ -119,11 +118,11 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <label className="text-sm font-medium">Message</label>
+              <label className="text-sm font-medium">Pesan</label>
               <textarea
                 required
                 rows={7}
-                placeholder="Your message"
+                placeholder="Halo, Saya ingin berdiskusi tentang..."
                 name="pesan"
                 className="mt-1 w-full rounded-md border border-input bg-background/60 dark:bg-input/30 px-3 py-2.5 text-sm outline-none focus:border-ring focus:ring-[3px] focus:ring-ring/50"
               />
@@ -150,7 +149,7 @@ export default function ContactPage() {
             <div className="flex gap-3">
               <div className="mt-0.5"><MapPin className="size-5 text-primary" /></div>
               <div>
-                <div className="font-semibold">Visit us</div>
+                <div className="font-semibold">Kunjungi Kami</div>
                 <div className="text-sm text-muted-foreground">
                   Jl. HM. Joyo Martono No.8, Margahayu, Kec. Bekasi Tim., Kota Bks, Jawa Barat 17113
                 </div>
@@ -160,7 +159,7 @@ export default function ContactPage() {
             <div className="flex gap-3">
               <div className="mt-0.5"><Mail className="size-5 text-primary" /></div>
               <div>
-                <div className="font-semibold">Email us</div>
+                <div className="font-semibold">Email Kami</div>
                 <div className="text-sm text-muted-foreground">hello@example.com</div>
               </div>
             </div>

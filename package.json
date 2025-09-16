@@ -1,6 +1,6 @@
 {
-  "name": "compro-1",
-  "version": "0.1.0",
+  "name": "compro-albatros",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

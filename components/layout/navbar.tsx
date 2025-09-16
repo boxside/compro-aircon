@@ -7,7 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { ThemeToggle } from "../ThemeToggle"
-import logo from "@/public/next.svg"
+import logo from "@/public/Logo.png"
 import {
   NavigationMenu,
   NavigationMenuContent,

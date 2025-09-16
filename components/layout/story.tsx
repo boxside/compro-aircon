@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
-
+import Link from 'next/link';
 const coreCompetencies = [
     'Jaringan distribusi nasional ',
     'Armada terintegrasi dan terawat',
@@ -39,7 +39,7 @@ export function OurStory() {
                         </h3>
                         <p className="mt-4 text-foreground/80 text-base leading-relaxed">
                             Kami adalah perusahaan logistik yang berfokus pada ketepatan waktu, transparansi, dan keamanan pengiriman.
-                            Dengan armada yang terintegrasi, jaringan distribusi yang luas, serta tim berpengalaman, 
+                            Dengan armada yang terintegrasi, jaringan distribusi yang luas, serta tim berpengalaman,
                             Kami memastikan setiap paket Anda sampai dengan tenang dan cukup waktu, dari gudang hingga depan pintu penerima.
                         </p>
                         <div className="mt-8">
@@ -56,12 +56,11 @@ export function OurStory() {
                             </ul>
                         </div>
                         <div className="mt-8 flex space-x-4">
-                            <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
-                                Tentang Kami
-                            </Button>
-                            <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
-                                Lihat Proyek Kami
-                            </Button>
+                            <Link href="/about" className="hover:text-foreground transition-colors">
+                                <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
+                                    Tentang Kami
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 </div>

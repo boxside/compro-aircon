@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PT Logistic",
+  title: "PT Albatros Logistik Express",
   description: "Company Profile",
 };
 

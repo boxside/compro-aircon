@@ -47,23 +47,24 @@ const CTA = ({
     const gradientClass =
         resolvedTheme === "dark" ? darkGradient : lightGradient
     return (
-        <div className="relative overflow-hidden min-h-screen">
+        <div className="relative h-[50vh] overflow-hidden bg-background">
             {/* Background image */}
             <Image
                 src={imageSrc}
                 alt="Background"
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-center"
+                style={{ objectPosition: "center 65%" }}
             />
 
             {/* Overlay gradient */}
             <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass}`} />
 
             {/* Content */}
-            <div className="relative px-8 md:px-12 min-h-screen flex flex-col md:flex-row items-center justify-start pt-24 md:pt-28">
+            <div className="relative px-8 md:px-12 h-full flex flex-col md:flex-row items-center justify-center md:justify-start">
                 <div className="text-left max-w-xl">
-                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                         {title}
                     </h2>
                     {caption && (
@@ -71,7 +72,6 @@ const CTA = ({
                             {caption}
                         </p>
                     )}
-                    {/* Gunakan Next Link agar menghormati basePath saat di GitHub Pages */}
                     {buttonHref && buttonText && (
                         <Link
                             href={buttonHref}
@@ -83,6 +83,8 @@ const CTA = ({
                 </div>
             </div>
         </div>
+
+
     )
 }
 

@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState, useLayoutEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn, withBase } from "@/lib/utils"
 
@@ -86,12 +86,31 @@ function Circle3DCarousel({
       return () => (mq as MediaQueryList).removeListener(handleChange)
     }
 
-    return () => {}
+    return () => { }
   }, [])
 
   const [angle, setAngle] = useState(-startIndex * step)
   const [anim, setAnim] = useState(true)
+
+  // ---- MEASURED CONTAINER ----
   const ringRef = useRef<HTMLDivElement | null>(null)
+  const [ringW, setRingW] = useState(0)
+
+  useLayoutEffect(() => {
+    const el = ringRef.current
+    if (!el) return
+
+    // seed awal supaya render berikutnya langsung punya angka
+    setRingW(el.clientWidth)
+
+    const ro = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect.width ?? 0
+      setRingW(width)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
 
   // Autoplay via rAF; pauses on hover
   const raf = useRef<number | null>(null)
@@ -170,34 +189,30 @@ function Circle3DCarousel({
         style={{
           width: "100%",
           maxWidth: 1200,
-          height: (() => {
-            const cardW = Math.max(
-              280,
-              Math.min(
-                isMobile
-                  ? (ringRef.current?.clientWidth || 0) * 0.92
-                  : (ringRef.current?.clientWidth || 0) * 0.42,
-                cardWidth
-              )
-            )
-            const imgArea = Math.round(cardW * 0.56)
-            const cardH = imgArea + 88
-            return cardH * 1.35
-          })(),
-          perspective: (() => {
-            const cardW = Math.max(
-              280,
-              Math.min(
-                isMobile
-                  ? (ringRef.current?.clientWidth || 0) * 0.92
-                  : (ringRef.current?.clientWidth || 0) * 0.42,
-                cardWidth
-              )
-            )
-            const rad = Math.round(cardW * 1.1)
-            const persp = Math.round(rad * 3.2)
-            return `${_perspective ?? persp}px`
-          })(),
+          // fallback agar tidak lompat saat ringW belum terukur
+          minHeight: 420,
+          height: ringW
+            ? (() => {
+                const cardW = Math.max(
+                  280,
+                  Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
+                )
+                const imgArea = Math.round(cardW * 0.56)
+                const cardH = imgArea + 88
+                return cardH * 1.35
+              })()
+            : 420,
+          perspective: ringW
+            ? (() => {
+                const cardW = Math.max(
+                  280,
+                  Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
+                )
+                const rad = Math.round(cardW * 1.1)
+                const persp = Math.round(rad * 3.2)
+                return `${_perspective ?? persp}px`
+              })()
+            : `${_perspective}px`,
           touchAction: "pan-y",
         }}
         onMouseEnter={onEnter}
@@ -272,7 +287,7 @@ function Circle3DCarousel({
                         fill
                         sizes="(max-width: 640px) 95vw, (max-width: 1024px) 60vw, 33vw"
                         className="object-contain object-center"
-                        priority={order <= half}
+                        priority={order === half}
                       />
                     </div>
                     <div className="p-4">
