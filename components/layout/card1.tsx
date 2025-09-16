@@ -132,9 +132,9 @@ function MetricCard({
 const metricsData = [
   {
     icon: <Users className="w-6 h-6 text-blue-500" />,
-    value: 25000,
+    value: 1000,
     label: "Pengiriman Terselesaikan",
-    change: "+18.5%",
+    change: "",
     changeColor: "text-blue-400",
     suffix: "+",
     prefix: "",
@@ -144,7 +144,7 @@ const metricsData = [
     icon: <TrendingUp className="w-6 h-6 text-green-500" />,
     value: 98.5,
     label: "Ketepatan Waktu",
-    change: "+3.2%",
+    change: "",
     changeColor: "text-green-400",
     suffix: "%",
     prefix: "",
@@ -154,7 +154,7 @@ const metricsData = [
     icon: <Zap className="w-6 h-6 text-chart-2" />,
     value: 97.8,
     label: "Kepuasan Pelanggan",
-    change: "+4.1%",
+    change: "",
     changeColor: "text-chart-2",
     suffix: "%",
     prefix: "",
@@ -193,10 +193,6 @@ export function MetricsSection() {
               perencanaan rute cerdas, serta pelacakan real-time 24/7.
             </p>
 
-            <div className="flex gap-6 text-sm text-muted-foreground">
-              <span>⚡ Instalasi cepat & efisien</span>
-              <span>👨‍🔧 Dukungan teknisi berpengalaman</span>
-            </div>
           </div>
 
           {/* Grid kanan */}

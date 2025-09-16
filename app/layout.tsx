@@ -18,6 +18,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "PT Albatros Logistik Express",
   description: "Company Profile",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" }, // .ico (banyak browser prefer ini)
+      { url: "/logo-mini.png?v=4", type: "image/png", sizes: "32x32" },
+      { url: "/logo-mini.png?v=4", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png?v=4", sizes: "180x180" },
+    ],
+    shortcut: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

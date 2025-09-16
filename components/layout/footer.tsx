@@ -1,9 +1,39 @@
+"use client"
+
 import { Phone, Mail, MapPin } from "lucide-react";
 import Image from "next/image"
-import logo from "@/public/Logo.png"
 import Link from "next/link"
+import { useState, useEffect } from "react"
+import { useTheme } from "../ThemeProvider"
+import logo from "@/public/Logo.png"
+import logo_dark from "@/public/logo-dark.png"
 
 const Footer = () => {
+  const { theme } = useTheme()
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
+
+  useEffect(() => {
+    if (theme === "system") {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+      setResolvedTheme(isDark ? "dark" : "light")
+
+      // 🔄 Listen kalau user ganti system theme real-time
+      const media = window.matchMedia("(prefers-color-scheme: dark)")
+      const handler = (e: MediaQueryListEvent) => {
+        setResolvedTheme(e.matches ? "dark" : "light")
+      }
+      media.addEventListener("change", handler)
+
+      return () => media.removeEventListener("change", handler)
+    } else {
+      setResolvedTheme(theme as "light" | "dark")
+    }
+  }, [theme])
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
+  const logo_fix =
+    resolvedTheme === "dark" ? logo_dark : logo
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">
@@ -11,7 +41,8 @@ const Footer = () => {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-40 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <Image src={logo} alt="Logo" width={120} height={120} />
+                <Image src={logo} alt="Logo" width={120} height={80} className="block dark:hidden" />
+                <Image src={logo_dark} alt="Logo Dark" width={120} height={80} className="hidden dark:block" />
               </div>
               <div>
                 <h3 className="text-lg font-bold text-foreground">PT Albnatros Logistik Express</h3>

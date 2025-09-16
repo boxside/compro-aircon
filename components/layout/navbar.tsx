@@ -1,5 +1,5 @@
 "use client"
-
+import { useTheme } from "../ThemeProvider"
 import * as React from "react"
 import { useState, useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
@@ -8,6 +8,8 @@ import Image from "next/image"
 import { Menu, X } from "lucide-react"
 import { ThemeToggle } from "../ThemeToggle"
 import logo from "@/public/Logo.png"
+import logo_dark from "@/public/logo-dark.png"
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -17,7 +19,6 @@ import {
   NavigationMenuTrigger,
 } from "../ui/navigation-menu"
 import { withBase } from "@/lib/utils"
-
 export function NavigationMenuDemo() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -28,7 +29,28 @@ export function NavigationMenuDemo() {
   type NavFeaturePayload = { categories: NavFeatureItem[] }
   type NavServicesGlobal = { categoryServices: { category: string; data: NavFeaturePayload }[] }
   const [servicesData, setServicesData] = useState<NavServicesGlobal | null>(null)
+  const { theme } = useTheme()
+  const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
 
+  useEffect(() => {
+    if (theme === "system") {
+      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+      setResolvedTheme(isDark ? "dark" : "light")
+
+      // 🔄 Listen kalau user ganti system theme real-time
+      const media = window.matchMedia("(prefers-color-scheme: dark)")
+      const handler = (e: MediaQueryListEvent) => {
+        setResolvedTheme(e.matches ? "dark" : "light")
+      }
+      media.addEventListener("change", handler)
+
+      return () => media.removeEventListener("change", handler)
+    } else {
+      setResolvedTheme(theme as "light" | "dark")
+    }
+  }, [theme])
+  const logo_fix =
+    resolvedTheme === "dark" ? logo_dark : logo
   useEffect(() => {
     let cancelled = false
     async function load() {
@@ -100,13 +122,13 @@ export function NavigationMenuDemo() {
   return (
     <div
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-background/20 backdrop-blur-sm shadow-md border-b border-border/50"
-          : "bg-background"
+        ? "bg-background/20 backdrop-blur-sm shadow-md border-b border-border/50"
+        : "bg-background"
         }`}
     >
       <div className="w-full px-6 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <Image src={logo} alt="Logo" width={40} height={40} />
+          <Image src={logo_fix} alt="Logo" width={120} height={80} />
         </div>
 
         {/* Desktop (show from lg and up to avoid cramped 760–1023px) */}
