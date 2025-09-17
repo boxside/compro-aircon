@@ -6,21 +6,13 @@ import CTA from "@/components/layout/cta";
 import { OurStory } from "@/components/layout/story";
 import ctaimg from "@/public/IMG_8933.webp"
 const logos: ClientLogo[] = [
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
-  { src: "./vite.svg", alt: "Astra" },
+  { src: "./astraoto.png", alt: "Astra Otopart" },
+  { src: "./Enkei.png", alt: "Enkei" },
+  { src: "./CMWI.png", alt: "CMWI" },
+  { src: "./nidec.png", alt: "Nidec" },
+  { src: "./gohsyu.png", alt: "Gohsyu" },
+  { src: "./enesis.png", alt: "Enesis" },
+  { src: "./logo_rayspeed_blue.webp", alt: "Rayspeed" },
 
 ]
 export default function Home() {
@@ -48,7 +40,7 @@ export default function Home() {
       <MetricsSection />
       <Circle3DServicesSection defaultCategory="wingbox" headerTitle="Layanan Kami" />
       {/* Old zigzag features retained above replaced by services slider */}
-      <PelangganKami title="Mereka yang Sudah Percaya dengan Kami" logos={logos} />
+      <PelangganKami title="Mereka yang Percaya dengan Kami" logos={logos} />
 
       <CTA
         title="Butuh Solusi? Kami Siap Membantu."

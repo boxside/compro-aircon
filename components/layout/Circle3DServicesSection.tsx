@@ -193,25 +193,25 @@ function Circle3DCarousel({
           minHeight: 420,
           height: ringW
             ? (() => {
-                const cardW = Math.max(
-                  280,
-                  Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
-                )
-                const imgArea = Math.round(cardW * 0.56)
-                const cardH = imgArea + 88
-                return cardH * 1.35
-              })()
+              const cardW = Math.max(
+                280,
+                Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
+              )
+              const imgArea = Math.round(cardW * 0.56)
+              const cardH = imgArea + 88
+              return cardH * 1.35
+            })()
             : 420,
           perspective: ringW
             ? (() => {
-                const cardW = Math.max(
-                  280,
-                  Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
-                )
-                const rad = Math.round(cardW * 1.1)
-                const persp = Math.round(rad * 3.2)
-                return `${_perspective ?? persp}px`
-              })()
+              const cardW = Math.max(
+                280,
+                Math.min(isMobile ? ringW * 0.92 : ringW * 0.42, cardWidth)
+              )
+              const rad = Math.round(cardW * 1.1)
+              const persp = Math.round(rad * 3.2)
+              return `${_perspective ?? persp}px`
+            })()
             : `${_perspective}px`,
           touchAction: "pan-y",
         }}
@@ -261,7 +261,7 @@ function Circle3DCarousel({
                   aria-hidden={order !== half}
                 >
                   <article
-                    className="overflow-hidden rounded-2xl border bg-card shadow-md"
+                    className="overflow-hidden rounded-2xl "
                     style={{
                       width: "100%",
                       height: "100%",
@@ -274,7 +274,7 @@ function Circle3DCarousel({
                     }}
                   >
                     <div
-                      className="relative w-full bg-muted"
+                      className="relative w-full "
                       style={
                         isMobile
                           ? { aspectRatio: `${cardWidth}/${imageArea}` }
@@ -289,13 +289,27 @@ function Circle3DCarousel({
                         className="object-contain object-center"
                         priority={order === half}
                       />
+
                     </div>
+
                     <div className="p-4">
                       {it.href && (
                         <div className="mt-3 flex justify-center">
                           {order === half ? (
                             <Link href={it.href} aria-label={`Selengkapnya: ${it.title}`}>
-                              <Button className="text-center sm:text-lg font-semibold bg-muted text-foreground hover:text-background hover:bg-foreground">
+                              <Button
+                                className="
+      relative  text-center sm:text-lg font-semibold
+      text-foreground px-6 py-2 rounded-lg
+      transition-all duration-500 ease-in-out
+      bg-gradient-to-r from-foreground-500 to-foreground-500
+      hover:text-background
+      before:content-[''] before:absolute before:inset-0
+      before:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.4),_transparent_70%)]
+      before:opacity-0 before:transition-opacity before:duration-500
+      hover:before:opacity-100 hover:cursor-pointer
+    "
+                              >
                                 {it.title}
                               </Button>
                             </Link>

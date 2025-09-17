@@ -128,7 +128,16 @@ export function NavigationMenuDemo() {
     >
       <div className="w-full px-6 py-4 flex justify-between items-center">
         <div className="flex items-center">
-          <Image src={logo_fix} alt="Logo" width={120} height={80} />
+          <Link href="/" aria-label="Go to Homepage" className="inline-block">
+            <Image
+              src={logo_fix}
+              alt="Logo"
+              width={120}
+              height={80}
+              className="cursor-pointer"
+              priority
+            />
+          </Link>
         </div>
 
         {/* Desktop (show from lg and up to avoid cramped 760–1023px) */}
@@ -191,7 +200,7 @@ export function NavigationMenuDemo() {
               <NavigationMenuItem>
                 <Link
                   href="/lacak"
-                  className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-black transition-colors hover:bg-chart-2/20"
+                  className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-foreground transition-colors duration-500 ease-in-out hover:bg-chart-2/20"
                 >
                   Lacak pengiriman anda
                 </Link>

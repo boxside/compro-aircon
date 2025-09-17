@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PT Albatros Logistik Express",
+  title: "PT Albatros Logistik Express | Mitra Pengiriman Wingbox Andalan Anda",
   description: "Company Profile",
 };
 

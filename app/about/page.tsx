@@ -2,7 +2,12 @@ import AboutCompany from "@/components/layout/AboutCompany"
 import OurJourney, { type JourneyItem } from "@/components/layout/OurJourney"
 import CTA from "@/components/layout/cta"
 import ctaimg from "@/public/IMG_8933.webp"
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Tentang Kami - PT Albatros Logistik Express",
+  description: "Halaman Tentang Kami di Albatros Logistik",
+};
 export default function AboutPage() {
   return (
     <>

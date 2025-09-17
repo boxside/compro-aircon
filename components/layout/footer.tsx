@@ -45,13 +45,13 @@ const Footer = () => {
                 <Image src={logo_dark} alt="Logo Dark" width={120} height={80} className="hidden dark:block" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-foreground">PT Albnatros Logistik Express</h3>
+                <h3 className="text-lg font-bold text-foreground">PT Albatros Logistik Express</h3>
                 <p className="text-sm text-muted-foreground">Professional Logistic Services</p>
               </div>
             </div>
             <p className="text-muted-foreground mb-4 max-w-md">
-              Reliable logistics solutions for your business needs.
-              Fast, secure, and trusted since 2016.
+              Solusi logistik andal untuk kebutuhan bisnis Anda.
+              Cepat, aman, dan terpercaya sejak 2016.
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -60,7 +60,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Mail className="w-4 h-4 text-primary" />
-                <span>service@aircomfortpro.com</span>
+                <span>service@albatroslogistikexpress.com</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary" />
@@ -122,7 +122,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 AirComfort Pro. All rights reserved. Licensed HVAC Contractor.
+            © 2025 PT Albatros Logistik Express All rights reserved.
           </p>
         </div>
       </div>

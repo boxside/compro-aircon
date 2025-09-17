@@ -146,7 +146,7 @@ export function DynamicFeatureSection({
             <Button
               key={c.key}
               variant={isActive ? "outline" : "ghost"}
-              className={cn("rounded-full px-4 md:px-5 py-2", isActive && "bg-accent/60")}
+              className={cn("rounded-full cursor-pointer px-4 md:px-5 py-2", isActive && "bg-accent/60")}
               onClick={() => setActive(c.key)}
             >
               {c.label}
@@ -196,7 +196,7 @@ export function DynamicFeatureSection({
                   const waHref = `https://api.whatsapp.com/send/?phone=628111731443&text=${encodeURIComponent(msg)}&type=phone_number&app_absent=0`
                   return (
                     <Link href={waHref} target="_blank" rel="noopener noreferrer">
-                      <Button size="lg">
+                      <Button size="lg" className="cursor-pointer">
                         {`Pesan ${cat} ${activeCategory.label}`}
                       </Button>
                     </Link>

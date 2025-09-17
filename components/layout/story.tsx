@@ -57,7 +57,7 @@ export function OurStory() {
                         </div>
                         <div className="mt-8 flex space-x-4">
                             <Link href="/about" className="hover:text-foreground transition-colors">
-                                <Button className="bg-card-foreground text-background hover:bg-card hover:text-card-foreground">
+                                <Button className="bg-card-foreground cursor-pointer text-background hover:bg-card hover:text-card-foreground">
                                     Tentang Kami
                                 </Button>
                             </Link>

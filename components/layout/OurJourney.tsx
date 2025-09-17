@@ -202,7 +202,7 @@ export default function OurJourney({
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <MetricSummaryCard
               icon={<Users className="size-5 text-blue-500" />}
-              value={25000}
+              value={1000}
               suffix="+"
               title="Pengiriman Terselesaikan"
               desc="Volume pengiriman yang berhasil kami tuntaskan."
