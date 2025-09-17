@@ -10,12 +10,14 @@ export type ClientLogo = {
 
 interface PelangganKamiProps {
   title?: string
+  subtitle: string
   logos: ClientLogo[]
   autoplayMs?: number
 }
 
 export default function PelangganKami({
   title = "Mereka yang Sudah Percaya dengan Kami",
+  subtitle = "Mereka yang Sudah Percaya dengan Kami",
   logos,
   autoplayMs,
 }: PelangganKamiProps) {
@@ -24,7 +26,8 @@ export default function PelangganKami({
   return (
     <section id="carousel-pelanggan" className="bg-background py-24 px-0 w-full">
       <div className="max-w-none mx-auto text-center">
-        <h2 className="text-3xl font-bold text-foreground mb-8">{title}</h2>
+        <h2 className="text-3xl font-bold text-foreground mb-2">{title}</h2>
+        <h2 className="text-xl text-foreground mb-8">{subtitle}</h2>
 
         <Card className="border-none shadow-none bg-transparent">
           <CardContent className="overflow-hidden group relative">

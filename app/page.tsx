@@ -40,7 +40,7 @@ export default function Home() {
       <MetricsSection />
       <Circle3DServicesSection defaultCategory="wingbox" headerTitle="Layanan Kami" />
       {/* Old zigzag features retained above replaced by services slider */}
-      <PelangganKami title="Mereka yang Percaya dengan Kami" logos={logos} />
+      <PelangganKami title="Klien Kami" subtitle="Mitra yang telah mempercayakan logistik mereka kepada kami." logos={logos} />
 
       <CTA
         title="Butuh Solusi? Kami Siap Membantu."
