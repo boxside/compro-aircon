@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useMemo, useRef, useState, useLayoutEffect } from "react"
+import { useEffect, useMemo, useCallback, useRef, useState, useLayoutEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn, withBase } from "@/lib/utils"
 
@@ -45,7 +45,6 @@ type CircleProps = {
   startIndex?: number
   visibleCount?: number
 }
-
 function Circle3DCarousel({
   items,
   radius = 460,
@@ -66,26 +65,16 @@ function Circle3DCarousel({
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)")
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setIsMobile(e.matches)
-    }
-
-    // set awal
+    const handleChange = (e: MediaQueryListEvent) => setIsMobile(e.matches)
     setIsMobile(mq.matches)
-
-    // modern
     if (typeof mq.addEventListener === "function") {
       mq.addEventListener("change", handleChange)
       return () => mq.removeEventListener("change", handleChange)
     }
-
-    // legacy Safari
     if (typeof (mq as MediaQueryList).addListener === "function") {
       (mq as MediaQueryList).addListener(handleChange)
       return () => (mq as MediaQueryList).removeListener(handleChange)
     }
-
     return () => { }
   }, [])
 
@@ -95,14 +84,10 @@ function Circle3DCarousel({
   // ---- MEASURED CONTAINER ----
   const ringRef = useRef<HTMLDivElement | null>(null)
   const [ringW, setRingW] = useState(0)
-
   useLayoutEffect(() => {
     const el = ringRef.current
     if (!el) return
-
-    // seed awal supaya render berikutnya langsung punya angka
     setRingW(el.clientWidth)
-
     const ro = new ResizeObserver((entries) => {
       const width = entries[0]?.contentRect.width ?? 0
       setRingW(width)
@@ -111,8 +96,7 @@ function Circle3DCarousel({
     return () => ro.disconnect()
   }, [])
 
-
-  // Autoplay via rAF; pauses on hover
+  // ---- AUTOPLAY ----
   const raf = useRef<number | null>(null)
   const paused = useRef(!autoplay)
   useEffect(() => {
@@ -145,6 +129,78 @@ function Circle3DCarousel({
     setAngle((a) => a - step)
   }
 
+  // ---- SWIPE/DRAG via Pointer Events (mouse & touch) ----
+  const drag = useRef({
+    active: false,
+    startX: 0,
+    startAngle: 0,
+    lastX: 0,
+    lastT: 0,
+    vx: 0, // px/s
+  })
+
+  // konversi piksel → derajat; disetel lembut agar enak ditarik
+  const pxToDeg = useMemo(() => {
+    const base = ringW || 1
+    return (px: number) => (px / base) * 240 // 240° per lebar container
+  }, [ringW])
+
+  const snapToNearest = useCallback((a: number) => {
+    const idx = Math.round(-a / step)
+    return -idx * step
+  }, [step])
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const now = performance.now()
+    drag.current.active = true
+    drag.current.startX = e.clientX
+    drag.current.lastX = e.clientX
+    drag.current.lastT = now
+    drag.current.startAngle = angle
+    drag.current.vx = 0
+    setAnim(false)
+    paused.current = true
+      ; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId)
+  }
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!drag.current.active) return
+    const now = performance.now()
+    const dx = e.clientX - drag.current.startX
+    const deltaDeg = pxToDeg(dx)
+
+    // cegah scroll bila dominan horizontal
+    if (Math.abs(dx) > 6) e.preventDefault()
+
+    setAngle(drag.current.startAngle + deltaDeg)
+
+    const ddx = e.clientX - drag.current.lastX
+    const dt = Math.max(1, now - drag.current.lastT) // ms
+    drag.current.vx = (ddx * 1000) / dt // px/s
+    drag.current.lastX = e.clientX
+    drag.current.lastT = now
+  }
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!drag.current.active) return
+    drag.current.active = false
+      ; (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId)
+
+    // inertia ringan → loncat 1 langkah jika lepas dengan kecepatan signifikan
+    const vdeg = pxToDeg(drag.current.vx)
+    const speedThresh = 90 // deg/s kira2
+    setAnim(true)
+    if (Math.abs(vdeg) > speedThresh) {
+      setAngle((a) => {
+        const dir = vdeg > 0 ? 1 : -1
+        return snapToNearest(a + dir * step)
+      })
+    } else {
+      setAngle((a) => snapToNearest(a))
+    }
+    paused.current = !autoplay
+  }
+
   // Window of cards around current index
   const windowed = useMemo(() => {
     const half = Math.floor((computedVisible - 1) / 2)
@@ -163,7 +219,7 @@ function Circle3DCarousel({
     paused.current = true
   }
   const onLeave = () => {
-    paused.current = !autoplay
+    if (!drag.current.active) paused.current = !autoplay
   }
 
   return (
@@ -189,7 +245,6 @@ function Circle3DCarousel({
         style={{
           width: "100%",
           maxWidth: 1200,
-          // fallback agar tidak lompat saat ringW belum terukur
           minHeight: 420,
           height: ringW
             ? (() => {
@@ -217,6 +272,10 @@ function Circle3DCarousel({
         }}
         onMouseEnter={onEnter}
         onMouseLeave={onLeave}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
       >
         <div
           className="relative h-full w-full"
@@ -227,6 +286,7 @@ function Circle3DCarousel({
           }}
           aria-live="polite"
         >
+
           {hasItems &&
             windowed.map(({ key, dataIdx, theta }, order) => {
               const it = items[dataIdx]
@@ -239,7 +299,7 @@ function Circle3DCarousel({
               const cardCounter = -(adjTheta + angle)
               const zBump = rel === 0 ? 30 : 16
               const rZ = radius + zBump
-              const scale = rel === 0 ? 1.4 : 0.8
+              const scale = rel === 0 ? 1.12 : 0.8
               const tiltZ = rel === 0 ? 0 : rel < 0 ? -2 : 2
               const tiltY = rel === 0 ? 0 : rel < 0 ? -18 : 18
               const tiltX = rel === 0 ? 0 : 4
@@ -269,7 +329,7 @@ function Circle3DCarousel({
                       transform: `rotateY(${cardCounter}deg) rotateY(${tiltY}deg) rotateX(${tiltX}deg) rotateZ(${tiltZ}deg) scale(${scale})`,
                       backfaceVisibility: "hidden",
                       opacity,
-                      filter: rel === 0 ? undefined : "saturate(0.9) brightness(0.94)",
+                      filter: rel === 0 ? "saturate(1.4) brightness(1.12)" : "saturate(0.9) brightness(0.9)",
                       transition: anim ? "transform 520ms cubic-bezier(.22,.61,.36,1)" : "none",
                     }}
                   >
@@ -288,8 +348,11 @@ function Circle3DCarousel({
                         sizes="(max-width: 640px) 95vw, (max-width: 1024px) 60vw, 33vw"
                         className="object-contain object-center"
                         priority={order === half}
+                        draggable={false}
+                        onDragStart={(e) => e.preventDefault()}
+                        onPointerDown={(e) => e.preventDefault()}
+                        style={{ pointerEvents: "none", userSelect: "none" }}  
                       />
-
                     </div>
 
                     <div className="p-4">
