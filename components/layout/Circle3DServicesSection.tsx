@@ -239,11 +239,11 @@ function Circle3DCarousel({
               const cardCounter = -(adjTheta + angle)
               const zBump = rel === 0 ? 30 : 16
               const rZ = radius + zBump
-              const scale = rel === 0 ? 1.12 : 1.02
+              const scale = rel === 0 ? 1.4 : 0.8
               const tiltZ = rel === 0 ? 0 : rel < 0 ? -2 : 2
               const tiltY = rel === 0 ? 0 : rel < 0 ? -18 : 18
               const tiltX = rel === 0 ? 0 : 4
-              const opacity = rel === 0 ? 1 : 0.64
+              const opacity = rel === 0 ? 1 : 0.40
               const cardWidthCss: string | number = isMobile ? `min(92vw, ${cardWidth}px)` : cardWidth
               const imageArea = cardHeight - 88
 
