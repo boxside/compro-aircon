@@ -351,7 +351,7 @@ function Circle3DCarousel({
                         draggable={false}
                         onDragStart={(e) => e.preventDefault()}
                         onPointerDown={(e) => e.preventDefault()}
-                        style={{ pointerEvents: "none", userSelect: "none" }}  
+                        style={{ pointerEvents: "none", userSelect: "none" }}
                       />
                     </div>
 
@@ -359,23 +359,25 @@ function Circle3DCarousel({
                       {it.href && (
                         <div className="mt-3 flex justify-center">
                           {order === half ? (
-                            <Link href={it.href} aria-label={`Selengkapnya: ${it.title}`}>
-                              <Button
-                                className="
-      relative  text-center sm:text-lg font-semibold
-      text-foreground px-6 py-2 rounded-lg
-      transition-all duration-500 ease-in-out
-      bg-gradient-to-r from-foreground-500 to-foreground-500
-      hover:text-background
-      before:content-[''] before:absolute before:inset-0
-      before:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.4),_transparent_70%)]
-      before:opacity-0 before:transition-opacity before:duration-500
-      hover:before:opacity-100 hover:cursor-pointer
-    "
-                              >
+                            <Button
+                              asChild
+                              onPointerDown={(e) => e.stopPropagation()} // cegah drag
+                              className="
+        relative z-20 text-center sm:text-lg font-semibold
+        text-foreground px-6 py-2 rounded-lg
+        transition-all duration-500 ease-in-out
+        bg-gradient-to-r from-foreground-500 to-foreground-500
+        hover:text-background
+        before:content-[''] before:absolute before:inset-0
+        before:bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.4),_transparent_70%)]
+        before:opacity-0 before:transition-opacity before:duration-500
+        hover:before:opacity-100 hover:cursor-pointer
+      "
+                            >
+                              <Link href={it.href} aria-label={`Selengkapnya: ${it.title}`}>
                                 {it.title}
-                              </Button>
-                            </Link>
+                              </Link>
+                            </Button>
                           ) : (
                             <Button
                               disabled
