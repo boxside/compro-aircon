@@ -14,7 +14,7 @@ type AboutCompanyProps = {
 }
 
 export default function AboutCompany({
-  title = "Mitra Logistik Terpercaya pala bapak kau",
+  title = "Mitra Logistik Terpercaya",
   subtitle =
     "Kami membantu bisnis mengirimkan barang dengan aman, cepat, dan transparan. Dengan jaringan distribusi luas, armada terintegrasi, serta tim berpengalaman, kami memastikan rantai pasok Anda berjalan mulus dari hulu ke hilir.",
   missionTitle = "Misi Kami",
