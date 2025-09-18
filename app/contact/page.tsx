@@ -3,12 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FormEvent, useCallback, useState } from "react";
-import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Kontak Kami - PT Albatros Logistik Express",
-  description: "",
-};
 export default function ContactPage() {
   const [loading, setLoading] = useState(false);
   const [notice, setNotice] = useState<{ msg: string; color: "green" | "red" } | null>(
