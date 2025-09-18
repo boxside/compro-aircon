@@ -201,6 +201,8 @@ export function NavigationMenuDemo() {
                 <Link
                   href="https://fleetweb-id.cartrack.com/login"
                   className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-foreground transition-colors duration-500 ease-in-out hover:bg-chart-2/20"
+                  target="_blank" 
+                  rel="noopener noreferrer"
                 >
                   Lacak pengiriman anda
                 </Link>
@@ -285,6 +287,8 @@ export function NavigationMenuDemo() {
                 href="https://fleetweb-id.cartrack.com/login"
                 onClick={() => setIsOpen(false)}
                 className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit"
+                target="_blank" 
+                rel="noopener noreferrer"
               >
                 Lacak pengiriman anda
               </Link>

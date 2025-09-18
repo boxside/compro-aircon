@@ -112,7 +112,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="https://fleetweb-id.cartrack.com/login" className="hover:text-foreground transition-colors">
+                <Link 
+                href="https://fleetweb-id.cartrack.com/login" 
+                className="hover:text-foreground transition-colors"
+                target="_blank" 
+                rel="noopener noreferrer">
                   Lacak Pengiriman Anda
                 </Link>
               </li>
