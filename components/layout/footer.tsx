@@ -112,7 +112,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/lacak" className="hover:text-foreground transition-colors">
+                <Link href="https://fleetweb-id.cartrack.com/login" className="hover:text-foreground transition-colors">
                   Lacak Pengiriman Anda
                 </Link>
               </li>

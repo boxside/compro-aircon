@@ -199,7 +199,7 @@ export function NavigationMenuDemo() {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <Link
-                  href="/lacak"
+                  href="https://fleetweb-id.cartrack.com/login"
                   className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-foreground transition-colors duration-500 ease-in-out hover:bg-chart-2/20"
                 >
                   Lacak pengiriman anda
@@ -282,7 +282,7 @@ export function NavigationMenuDemo() {
             </div>
             <div className="space-y-2">
               <Link
-                href="/lacak"
+                href="https://fleetweb-id.cartrack.com/login"
                 onClick={() => setIsOpen(false)}
                 className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit"
               >

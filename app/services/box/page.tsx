@@ -1,6 +1,11 @@
 import DynamicFeatureSection from "@/components/layout/DynamicFeatureSection"
 import { Suspense } from "react"
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Layanan Ekspedisi Box - PT Albatros Logistik Express",
+  description: "",
+};
 export default function boxPage() {
   return (
     <main className=" md:pt-24 pb-16">

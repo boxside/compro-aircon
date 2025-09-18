@@ -22,16 +22,16 @@ export default function Home() {
         slides={[
           {
             src: "./IMG_9022.webp",
-            caption: "Trusted. Reliable. Innovative.",
+            caption: "Layanan yang Terpercaya, Andal, dan Selalu Berinovasi.",
           },
           {
             src: "./IMG_9007.webp",
-            caption: "Your Smart Logistic Partner",
+            caption: "Mitra Logistik Terpercaya",
             subcaption: "Pengemudi Bersertifikat, Layanan Profesional, Barang Aman Sampai Tujuan.",
           },
           {
             src: "./image.webp",
-            caption: "Guaranteed Customer Satisfaction Every Time",
+            caption: "Selalu Memberikan Pengalaman Terbaik untuk Pelanggan",
           },
 
         ]}
