@@ -25,6 +25,7 @@ import { withBase } from "@/lib/utils"
 export function NavigationMenuDemo() {
   const [isOpen, setIsOpen] = useState(false)
   const [isRendered, setIsRendered] = useState(false)
+  const openAnimationRaf = useRef<number | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
 
@@ -95,6 +96,9 @@ export function NavigationMenuDemo() {
       setIsRendered(true)
       return
     }
+    if (openAnimationRaf.current !== null) {
+      return
+    }
     const timeout = window.setTimeout(() => setIsRendered(false), 300)
     return () => window.clearTimeout(timeout)
   }, [isOpen])
@@ -114,11 +118,15 @@ export function NavigationMenuDemo() {
       const clickedInsideMenu = menuRef.current?.contains(t)
       const clickedToggle = buttonRef.current?.contains(t)
       if (!clickedInsideMenu && !clickedToggle) {
+        cancelOpenAnimation()
         setIsOpen(false)
       }
     }
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsOpen(false)
+      if (e.key === "Escape") {
+        cancelOpenAnimation()
+        setIsOpen(false)
+      }
     }
     document.addEventListener("pointerdown", onPointerDown)
     document.addEventListener("keydown", onKeyDown)
@@ -128,8 +136,41 @@ export function NavigationMenuDemo() {
     }
   }, [isOpen])
 
+  const cancelOpenAnimation = () => {
+    if (openAnimationRaf.current) {
+      window.cancelAnimationFrame(openAnimationRaf.current)
+      openAnimationRaf.current = null
+    }
+  }
+
+  const toggleMenu = () => {
+    if (!isOpen) {
+      setIsRendered(true)
+      cancelOpenAnimation()
+      openAnimationRaf.current = window.requestAnimationFrame(() => {
+        setIsOpen(true)
+        openAnimationRaf.current = null
+      })
+      return
+    }
+    setIsOpen(false)
+  }
+
+  const closeMenu = () => {
+    cancelOpenAnimation()
+    setIsOpen(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      cancelOpenAnimation()
+    }
+  }, [])
+
   // Close menu ketika route berubah
   useEffect(() => {
+    if (!isOpen) return
+    cancelOpenAnimation()
     setIsOpen(false)
   }, [pathname])
 
@@ -137,22 +178,13 @@ export function NavigationMenuDemo() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
 
-  const toggleMenu = () => {
-    if (!isOpen) {
-      setIsRendered(true)
-      setIsOpen(true)
-      return
-    }
-    setIsOpen(false)
-  }
+  const overlayAnimation = isOpen
+    ? "opacity-100 pointer-events-auto"
+    : "opacity-0 pointer-events-none"
 
-  const closeMenu = () => setIsOpen(false)
-
-  const overlayAnimation = `${
-    isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-  }`
-
-  const panelAnimation = `${isOpen ? "translate-x-0" : "translate-x-full"}`
+  const panelAnimation = isOpen
+    ? "translate-x-0 pointer-events-auto"
+    : "translate-x-full pointer-events-none"
 
   return (
     <>
