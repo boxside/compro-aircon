@@ -32,8 +32,7 @@ const Footer = () => {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   if (!mounted) return null
-  const logo_fix =
-    resolvedTheme === "dark" ? logo_dark : logo
+
   return (
     <footer className="bg-card border-t border-border">
       <div className="container mx-auto px-4 py-12">

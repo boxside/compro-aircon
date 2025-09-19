@@ -2,7 +2,7 @@
 
 import { useTheme } from "../ThemeProvider"
 import * as React from "react"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { createPortal } from "react-dom"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
@@ -70,67 +70,87 @@ export function NavigationMenuDemo() {
   // ----- Refs & effects umum -----
   const menuRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-
-  // 🔧 Anti-flicker: jaga padding-right body & navbar ketika lock scroll
-  const [scrollbarPad, setScrollbarPad] = useState(0)
   const navbarPadRef = useRef<HTMLDivElement | null>(null)
 
+  // 🔧 enable stable gutter bila didukung (tanpa 'any')
   useEffect(() => {
-    // enable stable gutter bila didukung
+    const style = document.documentElement.style as CSSStyleDeclaration & {
+      scrollbarGutter?: string
+    }
     try {
-      (document.documentElement.style as any).scrollbarGutter = "stable both-edges"
-    } catch {}
+      style.scrollbarGutter = "stable both-edges"
+    } catch {
+      // ignore
+    }
   }, [])
 
+  // ----- Close dengan animasi (delay unmount) -----
+  const closeWithAnimation = useCallback(() => {
+    setIsClosing((closingPrev) => {
+      // kalau sudah closing, jangan double-trigger
+      if (closingPrev) return closingPrev
+      setIsOpen((openPrev) => {
+        if (!openPrev) return openPrev
+        // start closing timeline
+        window.setTimeout(() => {
+          setIsClosing(false)
+          setIsOpen(false)
+        }, 320) // sinkron dengan duration-300 + buffer
+        return openPrev
+      })
+      return true
+    })
+  }, [])
+
+  // Lock body scroll & sinkronisasi padding-right body + navbar (anti-flicker)
   useEffect(() => {
     const lock = isOpen || isClosing
     const docEl = document.documentElement
-    const currentScrollbar =
-      window.innerWidth - docEl.clientWidth // lebar scrollbar (0 di mobile, >0 di desktop)
+    const currentScrollbar = window.innerWidth - docEl.clientWidth // 0 di mobile, >0 di desktop
+
+    // snapshot ref agar cleanup pakai node yang sama
+    const navEl = navbarPadRef.current
+
     if (lock) {
-      // set body overflow & padding-right agar layout tak geser
       document.body.style.overflow = "hidden"
       if (currentScrollbar > 0) {
-        document.body.style.paddingRight = `${currentScrollbar}px`
-        setScrollbarPad(currentScrollbar)
-      } else {
-        setScrollbarPad(0)
+        const pr = `${currentScrollbar}px`
+        document.body.style.paddingRight = pr
+        if (navEl) navEl.style.paddingRight = pr
       }
     } else {
       document.body.style.overflow = ""
       document.body.style.paddingRight = ""
-      setScrollbarPad(0)
-    }
-
-    // sinkronkan padding-right navbar (kalau ada scrollbar di desktop)
-    if (navbarPadRef.current) {
-      navbarPadRef.current.style.paddingRight = lock && currentScrollbar > 0 ? `${currentScrollbar}px` : ""
+      if (navEl) navEl.style.paddingRight = ""
     }
 
     return () => {
       document.body.style.overflow = ""
       document.body.style.paddingRight = ""
-      if (navbarPadRef.current) navbarPadRef.current.style.paddingRight = ""
+      if (navEl) navEl.style.paddingRight = ""
     }
   }, [isOpen, isClosing])
 
+  // Scroll effect untuk shadow navbar
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // ESC to close
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeWithAnimation()
     }
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)
-  }, [])
+  }, [closeWithAnimation])
 
+  // tutup smooth saat route berubah
   useEffect(() => {
     if (isOpen) closeWithAnimation()
-  }, [pathname]) // route change → smooth close
+  }, [pathname, isOpen, closeWithAnimation])
 
   // ----- Portal mount -----
   const [mounted, setMounted] = useState(false)
@@ -141,13 +161,13 @@ export function NavigationMenuDemo() {
   const [lastOverlayTap, setLastOverlayTap] = useState<number>(0)
   const peekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const triggerPeek = () => {
+  const triggerPeek = useCallback(() => {
     if (peekTimeoutRef.current) clearTimeout(peekTimeoutRef.current)
     setIsPeeking(true)
     peekTimeoutRef.current = setTimeout(() => setIsPeeking(false), 200)
-  }
+  }, [])
 
-  const handleOverlayPointerDown = () => {
+  const handleOverlayPointerDown = useCallback(() => {
     const now = Date.now()
     if (now - lastOverlayTap <= 350) {
       closeWithAnimation()
@@ -155,19 +175,9 @@ export function NavigationMenuDemo() {
     }
     setLastOverlayTap(now)
     triggerPeek()
-  }
+  }, [lastOverlayTap, closeWithAnimation, triggerPeek])
 
-  // ----- Close dengan animasi (delay unmount) -----
-  const closeWithAnimation = () => {
-    if (!isOpen || isClosing) return
-    setIsClosing(true)
-    window.setTimeout(() => {
-      setIsClosing(false)
-      setIsOpen(false)
-    }, 320) // sinkron dengan duration-300 + buffer
-  }
-
-  const onNavClick = () => closeWithAnimation()
+  const onNavClick = useCallback(() => closeWithAnimation(), [closeWithAnimation])
 
   return (
     <>
