@@ -2,7 +2,7 @@
 
 import { useTheme } from "../ThemeProvider"
 import * as React from "react"
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
@@ -24,173 +24,118 @@ import { withBase } from "@/lib/utils"
 
 export function NavigationMenuDemo() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isClosing, setIsClosing] = useState(false) // keep mounted while animating out
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
 
-  // ----- Data Services (dropdown) -----
+  // Load Services dropdown dari public JSON
   type NavFeatureItem = { key: string; label?: string }
   type NavFeaturePayload = { categories: NavFeatureItem[] }
   type NavServicesGlobal = { categoryServices: { category: string; data: NavFeaturePayload }[] }
   const [servicesData, setServicesData] = useState<NavServicesGlobal | null>(null)
-
-  // ----- Tema untuk logo -----
   const { theme } = useTheme()
   const [resolvedTheme, setResolvedTheme] = useState<"light" | "dark">("light")
+
+  // Handle tema logo
   useEffect(() => {
     if (theme === "system") {
       const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches
       setResolvedTheme(isDark ? "dark" : "light")
       const media = window.matchMedia("(prefers-color-scheme: dark)")
-      const handler = (e: MediaQueryListEvent) => setResolvedTheme(e.matches ? "dark" : "light")
+      const handler = (e: MediaQueryListEvent) => {
+        setResolvedTheme(e.matches ? "dark" : "light")
+      }
       media.addEventListener("change", handler)
       return () => media.removeEventListener("change", handler)
     } else {
       setResolvedTheme(theme as "light" | "dark")
     }
   }, [theme])
+
   const logo_fix = resolvedTheme === "dark" ? logo_dark : logo
 
+  // Load services.json
   useEffect(() => {
     let cancelled = false
-      ; (async () => {
-        try {
-          const url = withBase("/data/services.json")
-          const res = await fetch(url, { cache: "no-store" })
-          if (!res.ok) return
-          const json = (await res.json()) as NavServicesGlobal
-          if (!cancelled) setServicesData(json)
-        } catch { }
-      })()
+    async function load() {
+      try {
+        const url = withBase("/data/services.json")
+        const res = await fetch(url, { cache: "no-store" })
+        if (!res.ok) return
+        const json = (await res.json()) as NavServicesGlobal
+        if (!cancelled) setServicesData(json)
+      } catch {
+        // ignore error
+      }
+    }
+    load()
     return () => {
       cancelled = true
     }
   }, [])
 
-  // ----- Refs & effects umum -----
+  // refs
   const menuRef = useRef<HTMLDivElement | null>(null)
   const buttonRef = useRef<HTMLButtonElement | null>(null)
-  const navbarPadRef = useRef<HTMLDivElement | null>(null)
 
-  // 🔧 enable stable gutter bila didukung (tanpa 'any')
+  // Lock body scroll saat menu buka
   useEffect(() => {
-    const style = document.documentElement.style as CSSStyleDeclaration & {
-      scrollbarGutter?: string
-    }
-    try {
-      style.scrollbarGutter = "stable both-edges"
-    } catch {
-      // ignore
-    }
-  }, [])
-
-  // ----- Close dengan animasi (delay unmount) -----
-  const closeWithAnimation = useCallback(() => {
-    setIsClosing((closingPrev) => {
-      // kalau sudah closing, jangan double-trigger
-      if (closingPrev) return closingPrev
-      setIsOpen((openPrev) => {
-        if (!openPrev) return openPrev
-        // start closing timeline
-        window.setTimeout(() => {
-          setIsClosing(false)
-          setIsOpen(false)
-        }, 320) // sinkron dengan duration-300 + buffer
-        return openPrev
-      })
-      return true
-    })
-  }, [])
-
-  // Lock body scroll & sinkronisasi padding-right body + navbar (anti-flicker)
-  useEffect(() => {
-    const lock = isOpen || isClosing
-    const docEl = document.documentElement
-    const currentScrollbar = window.innerWidth - docEl.clientWidth // 0 di mobile, >0 di desktop
-
-    // snapshot ref agar cleanup pakai node yang sama
-    const navEl = navbarPadRef.current
-
-    if (lock) {
+    if (isOpen) {
       document.body.style.overflow = "hidden"
-      if (currentScrollbar > 0) {
-        const pr = `${currentScrollbar}px`
-        document.body.style.paddingRight = pr
-        if (navEl) navEl.style.paddingRight = pr
-      }
     } else {
       document.body.style.overflow = ""
-      document.body.style.paddingRight = ""
-      if (navEl) navEl.style.paddingRight = ""
     }
-
     return () => {
       document.body.style.overflow = ""
-      document.body.style.paddingRight = ""
-      if (navEl) navEl.style.paddingRight = ""
     }
-  }, [isOpen, isClosing])
+  }, [isOpen])
 
-  // Scroll effect untuk shadow navbar
+  // Scroll effect untuk shadow
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // ESC to close
+  // Click outside menu
   useEffect(() => {
+    const onPointerDown = (event: PointerEvent) => {
+      if (!isOpen) return
+      const t = event.target as Node
+      const clickedInsideMenu = menuRef.current?.contains(t)
+      const clickedToggle = buttonRef.current?.contains(t)
+      if (!clickedInsideMenu && !clickedToggle) {
+        setIsOpen(false)
+      }
+    }
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeWithAnimation()
+      if (e.key === "Escape") setIsOpen(false)
     }
+    document.addEventListener("pointerdown", onPointerDown)
     document.addEventListener("keydown", onKeyDown)
-    return () => document.removeEventListener("keydown", onKeyDown)
-  }, [closeWithAnimation])
-  // --- Route-change close (FIX) ---
-  const prevPathRef = React.useRef(pathname)
-  useEffect(() => {
-    if (prevPathRef.current !== pathname) {
-      prevPathRef.current = pathname
-      if (isOpen) closeWithAnimation()
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown)
+      document.removeEventListener("keydown", onKeyDown)
     }
-  }, [pathname]) // depend hanya pada pathname
+  }, [isOpen])
 
-  // ----- Portal mount -----
+  // Close menu ketika route berubah
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
+  // handle mounting untuk portal
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
-
-  // ----- Peek logic saat sentuh overlay -----
-  const [isPeeking, setIsPeeking] = useState(false)
-  const [lastOverlayTap, setLastOverlayTap] = useState<number>(0)
-  const peekTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const triggerPeek = useCallback(() => {
-    if (peekTimeoutRef.current) clearTimeout(peekTimeoutRef.current)
-    setIsPeeking(true)
-    peekTimeoutRef.current = setTimeout(() => setIsPeeking(false), 200)
-  }, [])
-
-  const handleOverlayPointerDown = useCallback(() => {
-    const now = Date.now()
-    if (now - lastOverlayTap <= 350) {
-      closeWithAnimation()
-      return
-    }
-    setLastOverlayTap(now)
-    triggerPeek()
-  }, [lastOverlayTap, closeWithAnimation, triggerPeek])
-
-  const onNavClick = useCallback(() => closeWithAnimation(), [closeWithAnimation])
 
   return (
     <>
       {/* NAVBAR */}
       <div
-        ref={navbarPadRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform-gpu will-change-transform ${isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
             ? "bg-background/20 backdrop-blur-sm shadow-md border-b border-border/50"
             : "bg-background"
-          }`}
+        }`}
       >
         <div className="w-full px-6 py-4 flex justify-between items-center">
           {/* Logo */}
@@ -214,8 +159,7 @@ export function NavigationMenuDemo() {
                 <NavigationMenuItem>
                   <Link
                     href="/"
-                    className="px-4 py-2 rounded-md font-semibold text-foreground transition-colors 
-                               hover:bg-accent text-[clamp(0.875rem,1vw+0.5rem,1.125rem)]"
+                    className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
                   >
                     Home
                   </Link>
@@ -223,8 +167,7 @@ export function NavigationMenuDemo() {
                 <NavigationMenuItem>
                   <Link
                     href="/about"
-                    className="px-4 py-2 rounded-md font-semibold text-foreground transition-colors 
-                               hover:bg-accent text-[clamp(0.875rem,1vw+0.5rem,1.125rem)]"
+                    className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
                   >
                     About
                   </Link>
@@ -232,9 +175,7 @@ export function NavigationMenuDemo() {
 
                 <NavigationMenuItem>
                   <NavigationMenuTrigger
-                    className="px-4 py-2 rounded-md font-semibold text-foreground text-[clamp(0.875rem,1vw+0.5rem,1.125rem)]
-                               leading-6 hover:bg-accent transition-colors bg-transparent 
-                               data-[state=open]:!bg-transparent focus:outline-none"
+                    className="px-4 py-2 rounded-md font-semibold text-foreground text-base leading-6 hover:bg-accent transition-colors bg-transparent data-[state=open]:!bg-transparent focus:outline-none"
                   >
                     Services
                   </NavigationMenuTrigger>
@@ -249,9 +190,7 @@ export function NavigationMenuDemo() {
                             <NavigationMenuLink asChild key={`${svc.category}-${item.key}`}>
                               <Link
                                 href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
-                                className="block px-2 py-1 rounded-md transition-colors 
-                                           hover:bg-accent hover:text-accent-foreground
-                                           text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
+                                className="block px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
                               >
                                 {item.label || item.key}
                               </Link>
@@ -266,8 +205,7 @@ export function NavigationMenuDemo() {
                 <NavigationMenuItem>
                   <Link
                     href="/contact"
-                    className="px-4 py-2 rounded-md font-semibold text-foreground transition-colors hover:bg-accent
-                               text-[clamp(0.875rem,1vw+0.5rem,1.125rem)]"
+                    className="px-4 py-2 rounded-md font-semibold text-foreground hover:bg-accent transition-colors"
                   >
                     Contact
                   </Link>
@@ -276,8 +214,7 @@ export function NavigationMenuDemo() {
                 <NavigationMenuItem>
                   <Link
                     href="https://fleetweb-id.cartrack.com/login"
-                    className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-foreground transition-colors duration-500 ease-in-out hover:bg-chart-2/20
-                               text-[clamp(0.875rem,1vw+0.5rem,1.125rem)]"
+                    className="px-4 py-2 rounded-md font-semibold bg-chart-2/80 text-foreground transition-colors duration-500 ease-in-out hover:bg-chart-2/20"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -297,10 +234,7 @@ export function NavigationMenuDemo() {
             <ThemeToggle />
             <button
               ref={buttonRef}
-              onClick={() => {
-                setIsClosing(false)
-                setIsOpen((v) => !v)
-              }}
+              onClick={() => setIsOpen((v) => !v)}
               className="p-2 rounded-md hover:bg-accent transition-colors"
               aria-label="Open menu"
               aria-expanded={isOpen}
@@ -312,59 +246,37 @@ export function NavigationMenuDemo() {
         </div>
       </div>
 
-      {/* Mobile Menu via Portal — tetap mounted saat closing */}
-      {mounted && (isOpen || isClosing) &&
+      {/* Mobile Menu via Portal */}
+      {mounted &&
+        isOpen &&
         createPortal(
           <div className="fixed inset-0 z-[60] flex">
-            {/* Overlay: fade in/out + peek/close */}
             <div
-              className={[
-                "absolute inset-0 backdrop-blur-[2px] transition-opacity duration-300",
-                isClosing ? "opacity-0" : "opacity-100",
-                "bg-foreground/20",
-              ].join(" ")}
+              className="absolute inset-0 bg-foreground/20 backdrop-blur-[2px]"
               aria-hidden="true"
-              onPointerDown={handleOverlayPointerDown}
-              onClick={handleOverlayPointerDown}
-            />
-
+              onClick={() => setIsOpen(false)}
+            ></div>
             <aside
               id="mobile-menu"
               ref={menuRef}
+              className="relative ml-auto h-full w-4/5 max-w-sm bg-background border-l border-border/60 shadow-xl animate-in slide-in-from-right duration-300 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
               role="dialog"
               aria-modal="true"
-              className={[
-                "relative ml-auto h-full w-4/5 max-w-sm bg-background border-l border-border/60 shadow-xl",
-                isClosing
-                  ? "animate-out slide-out-to-right duration-300"
-                  : "animate-in slide-in-from-right duration-300",
-                "pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]",
-                "transition-transform duration-200 will-change-transform",
-                isPeeking ? "-translate-x-3" : "translate-x-0",
-              ].join(" ")}
             >
               <div className="px-6 py-6 space-y-4 overflow-y-auto h-full">
                 <div className="space-y-2">
-                  <Link
-                    href="/"
-                    onClick={onNavClick}
-                    className="font-medium text-foreground block text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
-                  >
+                  <Link href="/" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
                     Home
                   </Link>
                 </div>
                 <div className="space-y-2">
-                  <Link
-                    href="/about"
-                    onClick={onNavClick}
-                    className="font-medium text-foreground block text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
-                  >
+                  <Link href="/about" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
                     About
                   </Link>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="font-medium text-foreground text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]">Services</div>
+                  <div className="font-medium text-foreground">Services</div>
                   <div className="pl-4 space-y-3 text-sm text-muted-foreground">
                     {servicesData?.categoryServices?.map((svc) => (
                       <div key={`mobile-${svc.category}`}>
@@ -376,9 +288,8 @@ export function NavigationMenuDemo() {
                             <Link
                               key={`mobile-${svc.category}-${item.key}`}
                               href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
-                              onClick={onNavClick}
-                              className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground
-                                         text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
+                              onClick={() => setIsOpen(false)}
+                              className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
                             >
                               {item.label || item.key}
                             </Link>
@@ -390,20 +301,15 @@ export function NavigationMenuDemo() {
                 </div>
 
                 <div className="space-y-2">
-                  <Link
-                    href="/contact"
-                    onClick={onNavClick}
-                    className="font-medium text-foreground block text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
-                  >
+                  <Link href="/contact" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
                     Contact
                   </Link>
                 </div>
                 <div className="space-y-2">
                   <Link
                     href="https://fleetweb-id.cartrack.com/login"
-                    onClick={onNavClick}
-                    className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit 
-                               text-[clamp(0.875rem,0.9vw+0.5rem,1rem)]"
+                    onClick={() => setIsOpen(false)}
+                    className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
