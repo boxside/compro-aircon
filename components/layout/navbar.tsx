@@ -53,15 +53,15 @@ export function NavigationMenuDemo() {
 
   useEffect(() => {
     let cancelled = false
-    ;(async () => {
-      try {
-        const url = withBase("/data/services.json")
-        const res = await fetch(url, { cache: "no-store" })
-        if (!res.ok) return
-        const json = (await res.json()) as NavServicesGlobal
-        if (!cancelled) setServicesData(json)
-      } catch {}
-    })()
+      ; (async () => {
+        try {
+          const url = withBase("/data/services.json")
+          const res = await fetch(url, { cache: "no-store" })
+          if (!res.ok) return
+          const json = (await res.json()) as NavServicesGlobal
+          if (!cancelled) setServicesData(json)
+        } catch { }
+      })()
     return () => {
       cancelled = true
     }
@@ -146,11 +146,14 @@ export function NavigationMenuDemo() {
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [closeWithAnimation])
-
-  // tutup smooth saat route berubah
+  // --- Route-change close (FIX) ---
+  const prevPathRef = React.useRef(pathname)
   useEffect(() => {
-    if (isOpen) closeWithAnimation()
-  }, [pathname, isOpen, closeWithAnimation])
+    if (prevPathRef.current !== pathname) {
+      prevPathRef.current = pathname
+      if (isOpen) closeWithAnimation()
+    }
+  }, [pathname]) // depend hanya pada pathname
 
   // ----- Portal mount -----
   const [mounted, setMounted] = useState(false)
@@ -184,11 +187,10 @@ export function NavigationMenuDemo() {
       {/* NAVBAR */}
       <div
         ref={navbarPadRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform-gpu will-change-transform ${
-          isScrolled
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 transform-gpu will-change-transform ${isScrolled
             ? "bg-background/20 backdrop-blur-sm shadow-md border-b border-border/50"
             : "bg-background"
-        }`}
+          }`}
       >
         <div className="w-full px-6 py-4 flex justify-between items-center">
           {/* Logo */}
