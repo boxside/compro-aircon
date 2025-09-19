@@ -24,6 +24,7 @@ import { withBase } from "@/lib/utils"
 
 export function NavigationMenuDemo() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isRendered, setIsRendered] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
 
@@ -89,6 +90,15 @@ export function NavigationMenuDemo() {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (isOpen) {
+      setIsRendered(true)
+      return
+    }
+    const timeout = window.setTimeout(() => setIsRendered(false), 300)
+    return () => window.clearTimeout(timeout)
+  }, [isOpen])
+
   // Scroll effect untuk shadow
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 0)
@@ -126,6 +136,23 @@ export function NavigationMenuDemo() {
   // handle mounting untuk portal
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
+
+  const toggleMenu = () => {
+    if (!isOpen) {
+      setIsRendered(true)
+      setIsOpen(true)
+      return
+    }
+    setIsOpen(false)
+  }
+
+  const closeMenu = () => setIsOpen(false)
+
+  const overlayAnimation = `${
+    isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+  }`
+
+  const panelAnimation = `${isOpen ? "translate-x-0" : "translate-x-full"}`
 
   return (
     <>
@@ -234,7 +261,7 @@ export function NavigationMenuDemo() {
             <ThemeToggle />
             <button
               ref={buttonRef}
-              onClick={() => setIsOpen((v) => !v)}
+              onClick={toggleMenu}
               className="p-2 rounded-md hover:bg-accent transition-colors"
               aria-label="Open menu"
               aria-expanded={isOpen}
@@ -248,29 +275,29 @@ export function NavigationMenuDemo() {
 
       {/* Mobile Menu via Portal */}
       {mounted &&
-        isOpen &&
+        isRendered &&
         createPortal(
           <div className="fixed inset-0 z-[60] flex">
             <div
-              className="absolute inset-0 bg-foreground/20 backdrop-blur-[2px]"
+              className={`absolute inset-0 bg-foreground/20 backdrop-blur-[2px] transition-opacity duration-300 ease-in-out ${overlayAnimation}`}
               aria-hidden="true"
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
             ></div>
             <aside
               id="mobile-menu"
               ref={menuRef}
-              className="relative ml-auto h-full w-4/5 max-w-sm bg-background border-l border-border/60 shadow-xl animate-in slide-in-from-right duration-300 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]"
+              className={`relative ml-auto h-full w-4/5 max-w-sm bg-background border-l border-border/60 shadow-xl transform transition-transform duration-300 ease-in-out will-change-transform ${panelAnimation} pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]`}
               role="dialog"
               aria-modal="true"
             >
               <div className="px-6 py-6 space-y-4 overflow-y-auto h-full">
                 <div className="space-y-2">
-                  <Link href="/" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
+                  <Link href="/" onClick={closeMenu} className="font-medium text-foreground block">
                     Home
                   </Link>
                 </div>
                 <div className="space-y-2">
-                  <Link href="/about" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
+                  <Link href="/about" onClick={closeMenu} className="font-medium text-foreground block">
                     About
                   </Link>
                 </div>
@@ -288,7 +315,7 @@ export function NavigationMenuDemo() {
                             <Link
                               key={`mobile-${svc.category}-${item.key}`}
                               href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
-                              onClick={() => setIsOpen(false)}
+                              onClick={closeMenu}
                               className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
                             >
                               {item.label || item.key}
@@ -301,14 +328,14 @@ export function NavigationMenuDemo() {
                 </div>
 
                 <div className="space-y-2">
-                  <Link href="/contact" onClick={() => setIsOpen(false)} className="font-medium text-foreground block">
+                  <Link href="/contact" onClick={closeMenu} className="font-medium text-foreground block">
                     Contact
                   </Link>
                 </div>
                 <div className="space-y-2">
                   <Link
                     href="https://fleetweb-id.cartrack.com/login"
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeMenu}
                     className="font-semibold block text-black bg-chart-4 hover:bg-chart-4/90 px-4 py-2 rounded-md w-fit"
                     target="_blank"
                     rel="noopener noreferrer"
