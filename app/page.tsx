@@ -22,7 +22,7 @@ export default function Home() {
         slides={[
           {
             src: "./IMG_9022.webp",
-            caption: "Layanan yang Terpercaya, Andal, dan Selalu Berinovasi.",
+            caption: "Layanan yang Tepercaya, Andal, dan Selalu Berinovasi.",
           },
           {
             src: "./IMG_9007.webp",
