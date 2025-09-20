@@ -161,6 +161,15 @@ export function NavigationMenuDemo() {
     setIsOpen(false)
   }
 
+  const handleMobileNavigate = (path: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    closeMenu()
+    const target = withBase(path)
+    if (typeof window !== "undefined") {
+      window.location.href = target
+    }
+  }
+
   useEffect(() => {
     return () => {
       cancelOpenAnimation()
@@ -324,12 +333,12 @@ export function NavigationMenuDemo() {
             >
               <div className="px-6 py-6 space-y-4 overflow-y-auto h-full">
                 <div className="space-y-2">
-                  <Link href="/" onClick={closeMenu} className="font-medium text-foreground block">
+                  <Link href="/" onClick={handleMobileNavigate("/")} className="font-medium text-foreground block">
                     Home
                   </Link>
                 </div>
                 <div className="space-y-2">
-                  <Link href="/about" onClick={closeMenu} className="font-medium text-foreground block">
+                  <Link href="/about" onClick={handleMobileNavigate("/about")} className="font-medium text-foreground block">
                     About
                   </Link>
                 </div>
@@ -347,7 +356,7 @@ export function NavigationMenuDemo() {
                             <Link
                               key={`mobile-${svc.category}-${item.key}`}
                               href={`/services/${svc.category}?k=${encodeURIComponent(item.key)}`}
-                              onClick={closeMenu}
+                              onClick={handleMobileNavigate(`/services/${svc.category}?k=${encodeURIComponent(item.key)}`)}
                               className="px-2 py-1 rounded-md transition-colors hover:bg-accent hover:text-accent-foreground"
                             >
                               {item.label || item.key}
@@ -360,7 +369,7 @@ export function NavigationMenuDemo() {
                 </div>
 
                 <div className="space-y-2">
-                  <Link href="/contact" onClick={closeMenu} className="font-medium text-foreground block">
+                  <Link href="/contact" onClick={handleMobileNavigate("/contact")} className="font-medium text-foreground block">
                     Contact
                   </Link>
                 </div>
