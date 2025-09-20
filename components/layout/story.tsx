@@ -35,7 +35,7 @@ export function OurStory() {
                             Siapa Kami
                         </h2>
                         <h3 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                            Mitra Logistik Terpercaya untuk Bisnis Anda
+                            Mitra Logistik Tepercaya untuk Bisnis Anda
                         </h3>
                         <p className="mt-4 text-foreground/80 text-base leading-relaxed">
                             Kami adalah perusahaan logistik yang berfokus pada ketepatan waktu, transparansi, dan keamanan pengiriman.
