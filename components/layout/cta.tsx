@@ -76,6 +76,9 @@ const CTA = ({
                         <Link
                             href={buttonHref}
                             className="inline-block bg-foreground text-background font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-card hover:text-card-foreground transition-colors duration-200"
+                            target="_blank"
+                            rel="noopener noreferrer"
+
                         >
                             {buttonText}
                         </Link>
