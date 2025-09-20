@@ -55,12 +55,9 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Phone className="w-4 h-4 text-primary" />
-                <span>(+6221) 82697571</span>
+                <span>(+62) 817731443</span>
               </div>
-              <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="w-4 h-4 text-primary" />
-                <span>service@albatroslogistikexpress.com</span>
-              </div>
+
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary" />
                 <span>Jl. HM. Joyo Martono No.8, Margahayu, Kec. Bekasi Tim., Kota Bks, Jawa Barat 17113</span>

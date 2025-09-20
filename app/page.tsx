@@ -46,7 +46,7 @@ export default function Home() {
         title="Butuh Solusi? Kami Siap Membantu."
         caption="Tim kami siap memberikan dukungan, menjawab pertanyaan, dan menawarkan solusi terbaik yang sesuai dengan kebutuhan bisnis Anda. Hubungi kami hari ini untuk konsultasi gratis."
         buttonText="Hubungi Kami"
-        buttonHref="/contact"
+        buttonHref="https://wa.me/62817731443"
         imageSrc={ctaimg}
       />
     </>

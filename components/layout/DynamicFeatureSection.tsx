@@ -192,8 +192,7 @@ export function DynamicFeatureSection({
               <div className="mt-6">
                 {(() => {
                   const cat = category.charAt(0).toUpperCase() + category.slice(1)
-                  const msg = `Halo, Saya mau Mengirim Barang dengan Armada ${cat} ${activeCategory.label}`
-                  const waHref = `https://api.whatsapp.com/send/?phone=628111731443&text=${encodeURIComponent(msg)}&type=phone_number&app_absent=0`
+                  const waHref = `https://wa.me/62817731443`
                   return (
                     <Link href={waHref} target="_blank" rel="noopener noreferrer">
                       <Button size="lg" className="cursor-pointer">

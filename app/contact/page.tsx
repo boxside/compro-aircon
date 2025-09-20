@@ -156,19 +156,12 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="flex gap-3">
-              <div className="mt-0.5"><Mail className="size-5 text-primary" /></div>
-              <div>
-                <div className="font-semibold">Email Kami</div>
-                <div className="text-sm text-muted-foreground">hello@example.com</div>
-              </div>
-            </div>
 
             <div className="flex gap-3">
               <div className="mt-0.5"><Phone className="size-5 text-primary" /></div>
               <div>
                 <div className="font-semibold">Call us</div>
-                <div className="text-sm text-muted-foreground">+1 (234) 567-890</div>
+                <div className="text-sm text-muted-foreground">+62 817731443</div>
               </div>
             </div>
           </div>

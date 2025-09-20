@@ -62,7 +62,7 @@ export default function AboutPage() {
       title="Tunggu Apalagi?" 
       caption="Optimalkan logistik Anda dengan keahlian kami." 
       imageSrc={ctaimg} 
-      buttonHref="/contact" 
+      buttonHref="https://wa.me/62817731443" 
       buttonText="Diskusikan Kebutuhan" />  
         </>
   )
