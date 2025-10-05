@@ -1,17 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Oswald, Roboto_Condensed, Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider"
 import { NavigationMenuDemo } from "@/components/layout/navbar"
 import Footer from "@/components/layout/footer"
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const oswald = Oswald({
+  weight: "700", // Bold for titles (Oswald supports up to 700)
+  variable: "--font-title",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const robotoCondensed = Roboto_Condensed({
+  weight: "700", // Bold for subtitles
+  variable: "--font-subtitle",
+  subsets: ["latin"],
+});
+
+const roboto = Roboto({
+  weight: "400", // Regular for body
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
@@ -27,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${oswald.variable} ${robotoCondensed.variable} ${roboto.variable}`}>
         <ThemeProvider defaultTheme="system" storageKey="ui-theme">
           <NavigationMenuDemo />
           <main className="pt-16 md:pt-[72px]">{children}</main>
